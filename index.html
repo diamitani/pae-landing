@@ -110,12 +110,17 @@
         }
 
         .hero-left h1 {
-            font-size: clamp(3rem, 6vw, 4rem);
+            font-size: clamp(36px, 5.5vw, 64px);
             font-weight: 800;
-            line-height: 1.1;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
             margin-bottom: 1.5rem;
-            letter-spacing: -0.03em;
             color: var(--text-primary);
+        }
+        
+        .hero-left h1 .title-main,
+        .hero-left h1 .title-accent {
+            display: block;
         }
 
         .hero-gradient-text {
@@ -700,7 +705,8 @@
         <div class="container" style="display: contents;">
             <div class="hero-left">
                 <h1>
-                    Build <span class="hero-gradient-text">Custom Prospect Engines</span> That Scale Outbound Pipeline
+                    <span class="title-main">Build <span class="hero-gradient-text">Custom Prospect Engines</span> That</span>
+                    <span class="title-accent">Scale Outbound Pipeline</span>
                 </h1>
                 <p class="hero-subtitle">
                     The Prospect Automation Engine (PAE) is a revenue-generating AI skill that builds custom automation architectures for B2B companies. Live in 30 days, you own the code, and your reps save 20+ hours per week.
