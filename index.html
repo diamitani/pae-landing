@@ -1,1416 +1,1700 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prospect Automation Engine (PAE) — Powered by SalesGency</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --cobalt: #2563EB;
-            --cobalt-light: #3b82f6;
-            --accent-light: #DBEAFE;
-            --text-primary: #0F172A;
-            --text-secondary: #64748B;
-            --text-tertiary: #94A3B8;
-            --surface-white: #FFFFFF;
-            --surface-gray: #F8FAFC;
-            --border-subtle: #E2E8F0;
-            --accent-green: #10b981;
-            --accent-amber: #f59e0b;
-            --shadow-soft: 0 4px 24px rgba(0, 0, 0, 0.06);
-            --shadow-medium: 0 8px 40px rgba(0, 0, 0, 0.08);
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Inter', sans-serif;
-            background: var(--surface-white);
-            color: var(--text-primary);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(2rem);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-
-        .animate-in {
-            animation: fadeInUp 0.8s ease forwards;
-        }
-
-        /* Container */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Header */
-        header {
-            padding: 2rem 0;
-            border-bottom: 1px solid var(--border-subtle);
-            background: var(--surface-white);
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--cobalt) 0%, var(--cobalt-light) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .header-tag {
-            color: var(--text-secondary);
-            font-size: 0.875rem;
-            padding: 0.5rem 1rem;
-            border: 1px solid var(--border-subtle);
-            border-radius: 2rem;
-            background: var(--surface-white);
-        }
-
-        /* Hero Section - Split Screen */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 8rem 0;
-            background: linear-gradient(180deg, var(--surface-white) 0%, var(--surface-gray) 100%);
-        }
-
-        .hero .container {
-            width: 100%;
-        }
-
-        .hero-content {
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            gap: 6rem;
-            align-items: center;
-        }
-
-        .hero-left h1 {
-            font-size: clamp(36px, 5.5vw, 64px);
-            font-weight: 800;
-            line-height: 1.15;
-            letter-spacing: -0.02em;
-            margin-bottom: 1.5rem;
-            color: var(--text-primary);
-        }
-        
-        .hero-left h1 .title-main,
-        .hero-left h1 .title-accent {
-            display: block;
-        }
-
-        .hero-left h1 .title-accent {
-            color: var(--cobalt);
-            margin: 0.25rem 0;
-        }
-
-        .hero-gradient-text {
-            background: linear-gradient(135deg, var(--cobalt) 0%, var(--cobalt-light) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero-subtitle {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            margin-bottom: 3rem;
-            line-height: 1.8;
-        }
-
-        .hero-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-
-        .stat {
-            text-align: left;
-        }
-
-        .stat-value {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--cobalt);
-            display: block;
-            line-height: 1;
-        }
-
-        .stat-label {
-            font-size: 0.875rem;
-            color: var(--text-tertiary);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-top: 0.5rem;
-        }
-
-        .cta-group {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border-radius: 0.75rem;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            text-decoration: none;
-            display: inline-block;
-            border: none;
-        }
-
-        .btn-primary {
-            background: var(--cobalt);
-            color: var(--surface-white);
-            box-shadow: var(--shadow-soft);
-        }
-
-        .btn-primary:hover {
-            background: var(--cobalt-light);
-            transform: translateY(-2px);
-            box-shadow: 0 12px 32px rgba(37, 99, 235, 0.25);
-        }
-
-        .btn-secondary {
-            background: var(--surface-white);
-            color: var(--text-primary);
-            border: 1px solid var(--border-subtle);
-            box-shadow: var(--shadow-soft);
-        }
-
-        .btn-secondary:hover {
-            background: var(--surface-gray);
-            transform: translateY(-2px);
-        }
-
-        /* Hero Right - Architecture Visual */
-        .hero-right {
-            position: relative;
-        }
-
-        .architecture-card {
-            background: var(--surface-white);
-            border: 1px solid var(--border-subtle);
-            border-radius: 1.5rem;
-            padding: 2.5rem;
-            position: relative;
-            overflow: hidden;
-            box-shadow: var(--shadow-soft);
-        }
-
-        .architecture-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--cobalt), transparent);
-        }
-
-        .arch-title {
-            font-size: 0.875rem;
-            color: var(--text-tertiary);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 1.5rem;
-            font-weight: 600;
-        }
-
-        .pipeline-steps {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .step {
-            background: var(--surface-gray);
-            padding: 1rem;
-            border-radius: 0.75rem;
-            border-left: 3px solid var(--cobalt);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .step:hover {
-            background: var(--accent-light);
-            transform: translateX(0.5rem);
-            border-left-color: var(--cobalt-light);
-        }
-
-        .step-number {
-            background: var(--cobalt);
-            width: 2rem;
-            height: 2rem;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 0.875rem;
-            flex-shrink: 0;
-            color: white;
-        }
-
-        .step-content h4 {
-            font-size: 1rem;
-            margin-bottom: 0.25rem;
-            color: var(--text-primary);
-        }
-
-        .step-content p {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-        }
-
-        /* Section Styles */
-        section {
-            padding: 8rem 0;
-            border-bottom: 1px solid var(--border-subtle);
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 5rem;
-        }
-
-        .section-tag {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background: var(--accent-light);
-            color: var(--cobalt);
-            border-radius: 2rem;
-            font-size: 0.875rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 1rem;
-        }
-
-        .section-title {
-            font-size: clamp(2.5rem, 4vw, 3rem);
-            font-weight: 800;
-            margin-bottom: 1rem;
-            letter-spacing: -0.02em;
-            color: var(--text-primary);
-        }
-
-        .section-subtitle {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            max-width: 700px;
-            margin: 0 auto;
-            line-height: 1.7;
-        }
-
-        /* 6-Step Workflow */
-        .workflow-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
-
-        .workflow-card {
-            background: var(--surface-white);
-            border: 1px solid var(--border-subtle);
-            border-radius: 1.5rem;
-            padding: 2.5rem;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: var(--shadow-soft);
-        }
-
-        .workflow-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--cobalt), var(--cobalt-light));
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .workflow-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .workflow-card:hover {
-            border-color: var(--cobalt);
-            transform: translateY(-0.5rem);
-            box-shadow: var(--shadow-medium);
-        }
-
-        .workflow-icon {
-            width: 3rem;
-            height: 3rem;
-            background: var(--accent-light);
-            border-radius: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1.5rem;
-            font-size: 1.5rem;
-        }
-
-        .workflow-number {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-size: 3rem;
-            font-weight: 800;
-            color: var(--surface-gray);
-        }
-
-        .workflow-card h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.75rem;
-            color: var(--text-primary);
-        }
-
-        .workflow-card p {
-            color: var(--text-secondary);
-            font-size: 0.9375rem;
-            line-height: 1.7;
-        }
-
-        /* 9-Node Pipeline */
-        .pipeline-visual {
-            background: var(--surface-white);
-            border: 1px solid var(--border-subtle);
-            border-radius: 1.5rem;
-            padding: 3rem;
-            margin-top: 3rem;
-            box-shadow: var(--shadow-soft);
-        }
-
-        .nodes-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
-
-        .node {
-            background: var(--surface-gray);
-            border: 1px solid var(--border-subtle);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            text-align: center;
-            position: relative;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .node:hover {
-            background: var(--accent-light);
-            border-color: var(--cobalt);
-            transform: translateY(-0.25rem);
-        }
-
-        .node::after {
-            content: '→';
-            position: absolute;
-            right: -2rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--cobalt);
-            font-size: 1.5rem;
-        }
-
-        .node:nth-child(3n)::after,
-        .node:last-child::after {
-            display: none;
-        }
-
-        .node-label {
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--cobalt);
-            margin-bottom: 0.5rem;
-        }
-
-        .node-name {
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-        }
-
-        .node-desc {
-            font-size: 0.8125rem;
-            color: var(--text-secondary);
-        }
-
-        /* Value Props */
-        .value-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .value-card {
-            display: flex;
-            gap: 2rem;
-            padding: 2.5rem;
-            background: var(--surface-white);
-            border: 1px solid var(--border-subtle);
-            border-radius: 1.5rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: var(--shadow-soft);
-        }
-
-        .value-card:hover {
-            transform: translateY(-0.25rem);
-            box-shadow: var(--shadow-medium);
-            border-color: var(--cobalt);
-        }
-
-        .value-icon {
-            width: 3rem;
-            height: 3rem;
-            background: var(--accent-light);
-            border-radius: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            flex-shrink: 0;
-        }
-
-        .value-content h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-        }
-
-        .value-content p {
-            color: var(--text-secondary);
-            line-height: 1.7;
-        }
-
-        /* Tech Stack */
-        .tech-stack {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .tech-card {
-            background: var(--surface-white);
-            border: 1px solid var(--border-subtle);
-            border-radius: 1rem;
-            padding: 2.5rem;
-            text-align: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: var(--shadow-soft);
-        }
-
-        .tech-card:hover {
-            border-color: var(--cobalt);
-            transform: translateY(-0.25rem);
-            box-shadow: var(--shadow-medium);
-        }
-
-        .tech-card h4 {
-            font-size: 1.125rem;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-        }
-
-        .tech-card p {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-        }
-
-        /* Architecture Layers */
-        .architecture-layers {
-            display: grid;
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .layer {
-            background: var(--surface-white);
-            border: 1px solid var(--border-subtle);
-            border-radius: 1rem;
-            padding: 2.5rem;
-            position: relative;
-            box-shadow: var(--shadow-soft);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .layer:hover {
-            transform: translateY(-0.25rem);
-            box-shadow: var(--shadow-medium);
-            border-color: var(--cobalt);
-        }
-
-        .layer-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .layer-badge {
-            background: var(--cobalt);
-            color: var(--surface-white);
-            padding: 0.25rem 0.75rem;
-            border-radius: 0.5rem;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .layer h3 {
-            font-size: 1.5rem;
-            color: var(--text-primary);
-        }
-
-        .layer p {
-            color: var(--text-secondary);
-            line-height: 1.7;
-        }
-
-        /* CTA Section */
-        .cta-section {
-            background: var(--accent-light);
-            border: 1px solid rgba(37, 99, 235, 0.2);
-            border-radius: 1.5rem;
-            padding: 4rem;
-            text-align: center;
-            margin-top: 4rem;
-        }
-
-        .cta-section h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-        }
-
-        .cta-section p {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            margin-bottom: 3rem;
-        }
-
-        /* Footer */
-        footer {
-            padding: 3rem 0;
-            text-align: center;
-            border-top: 1px solid var(--border-subtle);
-            background: var(--surface-gray);
-        }
-
-        footer p {
-            color: var(--text-tertiary);
-            font-size: 0.875rem;
-        }
-
-        .footer-link {
-            color: var(--cobalt);
-            text-decoration: none;
-            margin: 0 0.5rem;
-        }
-
-        .footer-link:hover {
-            text-decoration: underline;
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .hero-content {
-                grid-template-columns: 1fr;
-                gap: 4rem;
-            }
-
-            .hero {
-                padding: 6rem 0;
-                min-height: auto;
-            }
-
-            .hero-right {
-                display: none;
-            }
-
-            section {
-                padding: 6rem 0;
-            }
-
-            .section-header {
-                margin-bottom: 4rem;
-            }
-
-            .workflow-grid,
-            .nodes-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1.5rem;
-            }
-
-            .value-grid,
-            .tech-stack {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .container {
-                padding: 0 1.5rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            header {
-                padding: 1.5rem 0;
-            }
-
-            .header-content {
-                flex-direction: column;
-                gap: 1rem;
-                align-items: flex-start;
-            }
-
-            .header-tag {
-                font-size: 0.75rem;
-                padding: 0.375rem 0.75rem;
-            }
-
-            .hero {
-                padding: 4rem 0;
-                gap: 3rem;
-            }
-
-            .hero-left h1 {
-                font-size: clamp(32px, 8vw, 48px);
-                line-height: 1.2;
-                margin-bottom: 1.25rem;
-            }
-
-            .hero-subtitle {
-                font-size: 1.125rem;
-                margin-bottom: 2rem;
-            }
-
-            .hero-stats {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-                margin: 2.5rem 0 2rem 0;
-            }
-
-            .stat-value {
-                font-size: 2rem;
-            }
-
-            .cta-group {
-                flex-direction: column;
-                width: 100%;
-            }
-
-            .btn {
-                width: 100%;
-                text-align: center;
-                padding: 1rem 1.5rem;
-            }
-
-            section {
-                padding: 4rem 0;
-            }
-
-            .section-header {
-                margin-bottom: 3rem;
-            }
-
-            .section-title {
-                font-size: clamp(1.75rem, 6vw, 2.5rem);
-                margin-bottom: 0.75rem;
-            }
-
-            .section-subtitle {
-                font-size: 1.0625rem;
-            }
-
-            .workflow-grid,
-            .nodes-grid {
-                grid-template-columns: 1fr;
-                gap: 1.25rem;
-            }
-
-            .workflow-card,
-            .node,
-            .value-card {
-                padding: 2rem;
-            }
-
-            .tech-stack {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1.25rem;
-            }
-
-            .cta-section {
-                padding: 3rem 2rem;
-                border-radius: 1rem;
-            }
-
-            .cta-section h2 {
-                font-size: 2rem;
-            }
-
-            .cta-section p {
-                font-size: 1.125rem;
-            }
-
-            .container {
-                padding: 0 1.25rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero-left h1 {
-                font-size: clamp(28px, 9vw, 40px);
-            }
-
-            .hero-subtitle {
-                font-size: 1rem;
-            }
-
-            .hero-stats {
-                gap: 1.5rem;
-                margin: 2rem 0 1.5rem 0;
-            }
-
-            .stat-value {
-                font-size: 1.75rem;
-            }
-
-            .stat-label {
-                font-size: 0.8125rem;
-            }
-
-            section {
-                padding: 3rem 0;
-            }
-
-            .section-header {
-                margin-bottom: 2.5rem;
-            }
-
-            .section-title {
-                font-size: clamp(1.5rem, 7vw, 2rem);
-            }
-
-            .section-subtitle {
-                font-size: 1rem;
-            }
-
-            .workflow-card,
-            .node,
-            .value-card {
-                padding: 1.5rem;
-            }
-
-            .workflow-number,
-            .node-label {
-                font-size: 0.75rem;
-            }
-
-            .workflow-name,
-            .node-name {
-                font-size: 1rem;
-            }
-
-            .tech-stack {
-                grid-template-columns: 1fr;
-            }
-
-            .cta-section {
-                padding: 2.5rem 1.5rem;
-            }
-
-            .cta-section h2 {
-                font-size: 1.75rem;
-            }
-
-            .cta-section p {
-                font-size: 1rem;
-            }
-
-            footer {
-                padding: 2rem 0;
-            }
-
-            .container {
-                padding: 0 1rem;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prospect Automation Engine (PAE) — Build Autonomous GTM Machines with n8n</title>
+  <meta name="description" content="PAE is the production-ready 5-Pillar framework for building autonomous prospecting engines. Deploy CRM-shielded, AI-powered outbound workflows with deterministic data and human approval gates.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --accent-cobalt: #2563EB;
+      --accent-light: #DBEAFE;
+      --text-primary: #0F172A;
+      --text-secondary: #64748B;
+      --text-dim: #94A3B8;
+      --surface-white: #FFFFFF;
+      --surface-gray: #F8FAFC;
+      --border-subtle: #E2E8F0;
+      --accent-green: #10B981;
+      --accent-amber: #F59E0B;
+      --accent-red: #EF4444;
+      --layout-max: 1200px;
+      --section-gap: 120px;
+      --element-gap: 24px;
+      --shadow-soft: 0 4px 24px rgba(0, 0, 0, 0.06);
+      --shadow-medium: 0 8px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif;
+      background: var(--surface-white);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* Navigation */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+      background: rgba(255, 255, 255, 0.9);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .nav-inner {
+      max-width: var(--layout-max);
+      margin: 0 auto;
+      padding: 20px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .nav-brand span {
+      color: var(--accent-cobalt);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .nav-links a:hover {
+      color: var(--text-primary);
+    }
+
+    .nav-cta {
+      background: var(--accent-cobalt);
+      color: white !important;
+      padding: 10px 24px;
+      border-radius: 12px;
+      font-weight: 600;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.25);
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      min-height: 90vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 0;
+      background: linear-gradient(180deg, var(--surface-white) 0%, var(--surface-gray) 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: var(--layout-max);
+      width: 100%;
+      padding: 0 32px;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .hero-left {
+      animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: var(--accent-light);
+      border: 1px solid rgba(37, 99, 235, 0.2);
+      border-radius: 24px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--accent-cobalt);
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-size: clamp(36px, 5.5vw, 64px);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+      color: var(--text-primary);
+    }
+
+    .hero-title .line {
+      display: block;
+    }
+
+    .hero-title .accent {
+      background: linear-gradient(135deg, var(--accent-cobalt), #60A5FA);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 20px;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+      max-width: 560px;
+      line-height: 1.7;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 48px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary, .btn-secondary {
+      padding: 16px 32px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 16px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--accent-cobalt);
+      color: white;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(37, 99, 235, 0.25);
+    }
+
+    .btn-secondary {
+      background: var(--surface-white);
+      color: var(--text-primary);
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .btn-secondary:hover {
+      background: var(--surface-gray);
+      transform: translateY(-2px);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .stat-value {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--accent-cobalt);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    /* Architecture Visual */
+    .hero-right {
+      animation: fadeIn 1s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
+    }
+
+    .architecture-visual {
+      background: var(--surface-white);
+      border: 1px solid var(--border-subtle);
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .arch-title {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      margin-bottom: 24px;
+    }
+
+    .pillar-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .pillar-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      background: var(--surface-gray);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+
+    .pillar-item:hover {
+      background: var(--accent-light);
+      border-color: var(--accent-cobalt);
+      transform: translateX(4px);
+    }
+
+    .pillar-number {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: var(--accent-cobalt);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+      flex-shrink: 0;
+      color: white;
+    }
+
+    .pillar-content {
+      flex: 1;
+    }
+
+    .pillar-name {
+      font-weight: 700;
+      font-size: 16px;
+      margin-bottom: 2px;
+      color: var(--text-primary);
+    }
+
+    .pillar-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    /* Section Styles */
+    section {
+      padding: var(--section-gap) 32px;
+      max-width: var(--layout-max);
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .section-badge {
+      display: inline-block;
+      padding: 6px 16px;
+      background: var(--accent-light);
+      border: 1px solid rgba(37, 99, 235, 0.2);
+      border-radius: 24px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent-cobalt);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .section-title {
+      font-size: clamp(36px, 4vw, 56px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
+
+    .section-subtitle {
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 680px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* 5-Pillar Architecture Section */
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    .pillar-card {
+      background: var(--surface-white);
+      border: 1px solid var(--border-subtle);
+      border-radius: 24px;
+      padding: 32px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pillar-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent-cobalt), #60A5FA);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .pillar-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .pillar-card:hover {
+      border-color: var(--accent-cobalt);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-medium);
+    }
+
+    .pillar-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: var(--accent-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    .pillar-card-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+    }
+
+    .pillar-card-desc {
+      color: var(--text-secondary);
+      line-height: 1.7;
+      font-size: 15px;
+      margin-bottom: 16px;
+    }
+
+    .pillar-features {
+      list-style: none;
+      padding: 0;
+    }
+
+    .pillar-features li {
+      padding: 8px 0;
+      border-top: 1px solid var(--border-subtle);
+      font-size: 14px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pillar-features li::before {
+      content: '✓';
+      color: var(--accent-green);
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    /* 9-Node Workflow Section */
+    .workflow-container {
+      background: var(--surface-white);
+      border: 1px solid var(--border-subtle);
+      border-radius: 24px;
+      padding: 48px;
+      box-shadow: var(--shadow-soft);
+      margin-top: 48px;
+    }
+
+    .nodes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 32px;
+    }
+
+    .node-card {
+      background: var(--surface-gray);
+      border: 2px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 24px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .node-card:hover {
+      background: var(--accent-light);
+      border-color: var(--accent-cobalt);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-medium);
+    }
+
+    .node-card.active {
+      background: var(--accent-light);
+      border-color: var(--accent-cobalt);
+    }
+
+    .node-number {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--border-subtle);
+      line-height: 1;
+    }
+
+    .node-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent-cobalt);
+      margin-bottom: 8px;
+    }
+
+    .node-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    .node-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .node-tech {
+      font-size: 12px;
+      color: var(--text-dim);
+      font-style: italic;
+    }
+
+    .node-detail {
+      display: none;
+      margin-top: 16px;
+      padding: 16px;
+      background: var(--surface-white);
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      animation: fadeIn 0.3s ease;
+    }
+
+    .node-detail.active {
+      display: block;
+    }
+
+    .node-detail h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent-cobalt);
+      margin-bottom: 8px;
+    }
+
+    .node-detail p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* Features Section */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+      margin-top: 48px;
+    }
+
+    .feature-card {
+      background: var(--surface-white);
+      border: 1px solid var(--border-subtle);
+      border-radius: 24px;
+      padding: 40px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      gap: 24px;
+    }
+
+    .feature-card:hover {
+      border-color: var(--accent-cobalt);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-medium);
+    }
+
+    .feature-icon-lg {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      background: var(--accent-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      flex-shrink: 0;
+    }
+
+    .feature-content {
+      flex: 1;
+    }
+
+    .feature-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+    }
+
+    .feature-desc {
+      color: var(--text-secondary);
+      line-height: 1.7;
+      font-size: 15px;
+      margin-bottom: 16px;
+    }
+
+    .feature-points {
+      list-style: none;
+      padding: 0;
+    }
+
+    .feature-points li {
+      padding: 6px 0;
+      font-size: 14px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .feature-points li::before {
+      content: '→';
+      color: var(--accent-cobalt);
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    /* Technical Details Section */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    .tech-card {
+      background: var(--surface-white);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: var(--shadow-soft);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .tech-card:hover {
+      border-color: var(--accent-cobalt);
+      transform: translateY(-4px);
+    }
+
+    .tech-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--accent-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+
+    .tech-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    .tech-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .tech-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .tech-list li {
+      padding: 4px 0;
+      font-size: 13px;
+      color: var(--text-dim);
+      font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
+    }
+
+    /* Install Section */
+    .install-container {
+      background: var(--surface-white);
+      border: 1px solid var(--border-subtle);
+      border-radius: 24px;
+      padding: 48px;
+      box-shadow: var(--shadow-soft);
+      margin-top: 48px;
+    }
+
+    .install-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      margin-top: 32px;
+    }
+
+    .install-step {
+      text-align: center;
+    }
+
+    .install-number {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--accent-cobalt);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 800;
+      margin: 0 auto 20px;
+    }
+
+    .install-step-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    .install-step-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .code-block {
+      background: var(--text-primary);
+      border-radius: 16px;
+      padding: 24px;
+      margin: 32px 0;
+      overflow-x: auto;
+    }
+
+    .code-block code {
+      font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
+      color: var(--accent-light);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    /* CTA Section */
+    .cta-section {
+      background: linear-gradient(135deg, var(--accent-cobalt), #60A5FA);
+      border-radius: 32px;
+      padding: 80px 48px;
+      text-align: center;
+      margin: var(--section-gap) 32px;
+      box-shadow: var(--shadow-medium);
+    }
+
+    .cta-section h2 {
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 800;
+      color: white;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .cta-section p {
+      font-size: 20px;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 32px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-white {
+      background: white;
+      color: var(--accent-cobalt);
+      padding: 16px 32px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 16px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-white:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: white;
+      border: 2px solid white;
+      padding: 14px 32px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 16px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .btn-outline:hover {
+      background: white;
+      color: var(--accent-cobalt);
+      transform: translateY(-4px);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--surface-gray);
+      border-top: 1px solid var(--border-subtle);
+      padding: 64px 32px 32px;
+    }
+
+    .footer-content {
+      max-width: var(--layout-max);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+
+    .footer-brand {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+
+    .footer-brand span {
+      color: var(--accent-cobalt);
+    }
+
+    .footer-desc {
+      color: var(--text-secondary);
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .footer-section h4 {
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-links li {
+      margin-bottom: 12px;
+    }
+
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent-cobalt);
+    }
+
+    .footer-bottom {
+      max-width: var(--layout-max);
+      margin: 0 auto;
+      padding-top: 32px;
+      border-top: 1px solid var(--border-subtle);
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 14px;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .hero-content {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+
+      .nodes-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .tech-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .footer-content {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      :root {
+        --section-gap: 80px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .nodes-grid,
+      .pillars-grid,
+      .tech-grid,
+      .install-steps {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-content {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-card {
+        flex-direction: column;
+      }
+
+      .cta-section {
+        padding: 48px 24px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">SalesGency</div>
-                <div class="header-tag">Prospect Automation Engine</div>
-            </div>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="nav-brand">P<span>A</span>E</a>
+      <div class="nav-links">
+        <a href="#architecture">Architecture</a>
+        <a href="#workflow">Workflow</a>
+        <a href="#features">Features</a>
+        <a href="#install">Install</a>
+        <a href="https://github.com/yourusername/pae" class="nav-cta">View on GitHub</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-left">
+        <div class="hero-badge">🚀 Production-Ready GTM Framework</div>
+        <h1 class="hero-title">
+          <span class="line">Build Autonomous</span>
+          <span class="line accent">Prospecting Engines</span>
+          <span class="line">with the 5-Pillar Framework</span>
+        </h1>
+        <p class="hero-subtitle">
+          PAE is the production-ready architecture for building CRM-shielded, AI-powered outbound workflows. 
+          Deploy deterministic prospecting machines with human approval gates and complete observability.
+        </p>
+        <div class="hero-ctas">
+          <a href="#install" class="btn-primary">Get Started →</a>
+          <a href="https://github.com/yourusername/pae" class="btn-secondary">View on GitHub</a>
         </div>
-    </header>
-
-    <!-- Hero Section - Split Screen -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-left">
-                <h1>
-                    <span class="title-main">Build Custom</span>
-                    <span class="title-accent"><span class="hero-gradient-text">Prospect Engines</span></span>
-                    <span class="title-main">That Scale Outbound</span>
-                    <span class="title-main">Pipeline</span>
-                </h1>
-                <p class="hero-subtitle">
-                    The Prospect Automation Engine (PAE) is a revenue-generating AI skill that builds custom automation architectures for B2B companies. Live in 30 days, you own the code, and your reps save 20+ hours per week.
-                </p>
-
-                <div class="hero-stats">
-                    <div class="stat">
-                        <span class="stat-value">3.4×</span>
-                        <span class="stat-label">Higher Reply Rate</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-value">20+</span>
-                        <span class="stat-label">Hours Saved/Week</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-value">30</span>
-                        <span class="stat-label">Days to Live</span>
-                    </div>
-                </div>
-
-                <div class="cta-group">
-                    <a href="#workflow" class="btn btn-primary">See How It Works</a>
-                    <a href="#architecture" class="btn btn-secondary">View Architecture</a>
-                </div>
-            </div>
-
-            <div class="hero-right">
-                <div class="architecture-card">
-                    <div class="arch-title">6-Step Workflow</div>
-                    <div class="pipeline-steps">
-                        <div class="step">
-                            <div class="step-number">1</div>
-                            <div class="step-content">
-                                <h4>Lead Intake & NLP Search</h4>
-                                <p>Ingest ICP criteria, normalize data</p>
-                            </div>
-                        </div>
-                        <div class="step">
-                            <div class="step-number">2</div>
-                            <div class="step-content">
-                                <h4>Get Companies & Contacts</h4>
-                                <p>Multi-source enrichment via Clay/ZoomInfo</p>
-                            </div>
-                        </div>
-                        <div class="step">
-                            <div class="step-number">3</div>
-                            <div class="step-content">
-                                <h4>Deep Web Research</h4>
-                                <p>Account intelligence & signal detection</p>
-                            </div>
-                        </div>
-                        <div class="step">
-                            <div class="step-number">4</div>
-                            <div class="step-content">
-                                <h4>Pain Point Hypothesis</h4>
-                                <p>AI-powered insight generation</p>
-                            </div>
-                        </div>
-                        <div class="step">
-                            <div class="step-number">5</div>
-                            <div class="step-content">
-                                <h4>Custom AI Copywriting (PAS)</h4>
-                                <p>Claude 3.5 Sonnet personalization</p>
-                            </div>
-                        </div>
-                        <div class="step">
-                            <div class="step-number">6</div>
-                            <div class="step-content">
-                                <h4>CRM Sync & Sequencer Dispatch</h4>
-                                <p>HubSpot/Salesforce integration</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-value">5</span>
+            <span class="stat-label">Core Pillars</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">9</span>
+            <span class="stat-label">Node Pattern</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">100%</span>
+            <span class="stat-label">CRM Shielded</span>
+          </div>
         </div>
-    </section>
+      </div>
 
-    <!-- 6-Step Workflow Section -->
-    <section id="workflow">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Workflow</span>
-                <h2 class="section-title">6-Step Prospect Automation Flow</h2>
-                <p class="section-subtitle">
-                    From raw lead data to personalized outreach in minutes, not days. Each step is powered by AI reasoning and validated by human approval gates.
-                </p>
+      <div class="hero-right">
+        <div class="architecture-visual">
+          <div class="arch-title">5-Pillar Architecture Flow</div>
+          <div class="pillar-flow">
+            <div class="pillar-item">
+              <div class="pillar-number">1</div>
+              <div class="pillar-content">
+                <div class="pillar-name">Trigger Ingest</div>
+                <div class="pillar-desc">Webhook, CSV, or CRM Sync</div>
+              </div>
             </div>
-
-            <div class="workflow-grid">
-                <div class="workflow-card">
-                    <div class="workflow-number">01</div>
-                    <div class="workflow-icon">🎯</div>
-                    <h3>Lead Intake & NLP Search</h3>
-                    <p>
-                        Ingest ICP criteria from forms, CSV, or API. Natural language processing normalizes company names, industries, and intent signals.
-                    </p>
-                </div>
-
-                <div class="workflow-card">
-                    <div class="workflow-number">02</div>
-                    <div class="workflow-icon">🏢</div>
-                    <h3>Get Companies & Contacts</h3>
-                    <p>
-                        Multi-source enrichment via Clay, ZoomInfo, and Apollo. Deduplicate against CRM, validate email deliverability, and score fit.
-                    </p>
-                </div>
-
-                <div class="workflow-card">
-                    <div class="workflow-number">03</div>
-                    <div class="workflow-icon">🔍</div>
-                    <h3>Deep Web & Account Research</h3>
-                    <p>
-                        Scrape company websites, press releases, funding news, and tech stack. Extract buying signals and trigger events.
-                    </p>
-                </div>
-
-                <div class="workflow-card">
-                    <div class="workflow-number">04</div>
-                    <div class="workflow-icon">💡</div>
-                    <h3>Pain Point Hypothesis</h3>
-                    <p>
-                        Claude 3.5 Sonnet analyzes research to generate contextualized pain points, value props, and conversation starters.
-                    </p>
-                </div>
-
-                <div class="workflow-card">
-                    <div class="workflow-number">05</div>
-                    <div class="workflow-icon">✍️</div>
-                    <h3>Custom AI Copywriting (PAS)</h3>
-                    <p>
-                        Problem-Agitate-Solution framework. Generate personalized email sequences, LinkedIn messages, and call scripts.
-                    </p>
-                </div>
-
-                <div class="workflow-card">
-                    <div class="workflow-number">06</div>
-                    <div class="workflow-icon">🚀</div>
-                    <h3>CRM Sync & Sequencer Dispatch</h3>
-                    <p>
-                        Push contacts to HubSpot/Salesforce, enroll in sequences, and notify reps. Real-time dashboards track performance.
-                    </p>
-                </div>
+            <div class="pillar-item">
+              <div class="pillar-number">2</div>
+              <div class="pillar-content">
+                <div class="pillar-name">CRM Dedupe Shield</div>
+                <div class="pillar-desc">Prevent Deal Collision</div>
+              </div>
             </div>
+            <div class="pillar-item">
+              <div class="pillar-number">3</div>
+              <div class="pillar-content">
+                <div class="pillar-name">Contact Reveal</div>
+                <div class="pillar-desc">Data Enrichment & ICP Match</div>
+              </div>
+            </div>
+            <div class="pillar-item">
+              <div class="pillar-number">4</div>
+              <div class="pillar-content">
+                <div class="pillar-name">AI PAS Copywriting</div>
+                <div class="pillar-desc">3-Sentence Personalization</div>
+              </div>
+            </div>
+            <div class="pillar-item">
+              <div class="pillar-number">5</div>
+              <div class="pillar-content">
+                <div class="pillar-name">Sequencer Enrollment</div>
+                <div class="pillar-desc">Smartlead, Instantly, Lemlist</div>
+              </div>
+            </div>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- 9-Node Pipeline Section -->
-    <section id="pipeline">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">n8n Pipeline</span>
-                <h2 class="section-title">9-Node Automation Architecture</h2>
-                <p class="section-subtitle">
-                    Built on n8n workflows, the PAE pipeline is modular, transparent, and self-healing. Each node logs to your data warehouse for full observability.
-                </p>
-            </div>
+  <!-- About/Overview Section -->
+  <section id="about">
+    <div class="section-header">
+      <span class="section-badge">What is PAE?</span>
+      <h2 class="section-title">The Autonomous Prospecting Operating System</h2>
+      <p class="section-subtitle">
+        PAE is a master framework that unifies 5-Pillar outbound architecture, n8n workflow compilation, 
+        and execution diagnostics. Build prospecting engines that scale from 10 to 10,000 prospects per day 
+        with deterministic data flows, AI synthesis, and zero CRM pollution.
+      </p>
+    </div>
 
-            <div class="pipeline-visual">
-                <div class="nodes-grid">
-                    <div class="node">
-                        <div class="node-label">Trigger</div>
-                        <div class="node-name">Schedule Trigger</div>
-                        <div class="node-desc">Cron-based or webhook</div>
-                    </div>
-                    <div class="node">
-                        <div class="node-label">Normalize</div>
-                        <div class="node-name">Data Normalizer</div>
-                        <div class="node-desc">Clean & validate inputs</div>
-                    </div>
-                    <div class="node">
-                        <div class="node-label">Dedup</div>
-                        <div class="node-name">Deduplication Query</div>
-                        <div class="node-desc">Check CRM for existing records</div>
-                    </div>
-                    <div class="node">
-                        <div class="node-label">Enrich</div>
-                        <div class="node-name">Data Tool Adapter</div>
-                        <div class="node-desc">Clay/ZoomInfo/Apollo API</div>
-                    </div>
-                    <div class="node">
-                        <div class="node-label">Research</div>
-                        <div class="node-name">AI Research & PAS Copy</div>
-                        <div class="node-desc">Claude 3.5 Sonnet reasoning</div>
-                    </div>
-                    <div class="node">
-                        <div class="node-label">Gate</div>
-                        <div class="node-name">Approval Switch</div>
-                        <div class="node-desc">Human-in-the-loop review</div>
-                    </div>
-                    <div class="node">
-                        <div class="node-label">Sync</div>
-                        <div class="node-name">CRM Contact Creation</div>
-                        <div class="node-desc">HubSpot/Salesforce write</div>
-                    </div>
-                    <div class="node">
-                        <div class="node-label">Dispatch</div>
-                        <div class="node-name">Sequence Enrollment</div>
-                        <div class="node-desc">Trigger outbound cadence</div>
-                    </div>
-                    <div class="node">
-                        <div class="node-label">Notify</div>
-                        <div class="node-name">Review Alert</div>
-                        <div class="node-desc">Slack/Email summary</div>
-                    </div>
-                </div>
-            </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon-lg">🛡️</div>
+        <div class="feature-content">
+          <h3 class="feature-title">CRM-First Architecture</h3>
+          <p class="feature-desc">
+            Every prospect passes through a CRM Dedupe Shield before contact. Zero deal collision risk—the system automatically 
+            checks for active opportunities, existing client tags, and domain ownership before any outreach.
+          </p>
+          <ul class="feature-points">
+            <li>Queries HubSpot, Salesforce, Attio, or Pipedrive</li>
+            <li>Checks active deal stages and client status</li>
+            <li>Halts on domain match or existing relationship</li>
+          </ul>
         </div>
-    </section>
+      </div>
 
-    <!-- Value Props Section -->
-    <section id="value">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Why PAE</span>
-                <h2 class="section-title">Built for Revenue Teams That Scale</h2>
-                <p class="section-subtitle">
-                    Stop burning hours on manual research. The PAE skill turns your AI agents into prospect generation machines.
-                </p>
-            </div>
-
-            <div class="value-grid">
-                <div class="value-card">
-                    <div class="value-icon">⚡</div>
-                    <div class="value-content">
-                        <h3>Live in 30 Days</h3>
-                        <p>
-                            Discovery, architecture, deployment, and training. We map your ICP, integrate your stack, and hand you a running system with full documentation.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="value-card">
-                    <div class="value-icon">🔒</div>
-                    <div class="value-content">
-                        <h3>You Own the Architecture</h3>
-                        <p>
-                            No vendor lock-in. The entire n8n workflow, prompts, and data models live in your environment. Extend, fork, or white-label as needed.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="value-card">
-                    <div class="value-icon">👥</div>
-                    <div class="value-content">
-                        <h3>Built for Frontline Reps</h3>
-                        <p>
-                            Simple Slack/HubSpot interfaces. Reps submit ICPs, approve prospects, and see personalized copy in seconds—no technical knowledge required.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="value-card">
-                    <div class="value-icon">📈</div>
-                    <div class="value-content">
-                        <h3>3.4× Higher Reply Rate</h3>
-                        <p>
-                            Personalized PAS copy outperforms templated outreach by 340%. AI reasoning generates contextual angles that resonate with decision-makers.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="value-card">
-                    <div class="value-icon">⏱️</div>
-                    <div class="value-content">
-                        <h3>20+ Hours Saved Per Rep/Week</h3>
-                        <p>
-                            Automated research, enrichment, and copywriting. Your reps focus on calls, meetings, and closing—not manual data entry.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="value-card">
-                    <div class="value-icon">🛡️</div>
-                    <div class="value-content">
-                        <h3>CRM Shield & Data Quality</h3>
-                        <p>
-                            Built-in deduplication, deliverability checks, and approval gates. Never pollute your CRM with bad data or duplicate contacts.
-                        </p>
-                    </div>
-                </div>
-            </div>
+      <div class="feature-card">
+        <div class="feature-icon-lg">🤖</div>
+        <div class="feature-content">
+          <h3 class="feature-title">Deterministic + Agentic</h3>
+          <p class="feature-desc">
+            Use deterministic nodes for triggers, filters, deduplication, and enrollment. Reserve LLMs strictly for 
+            unstructured research and 3-sentence Problem-Agitate-Solve copywriting—no hallucinations in your data pipeline.
+          </p>
+          <ul class="feature-points">
+            <li>Deterministic: triggers, filters, CRM queries</li>
+            <li>AI: company research & personalized copy only</li>
+            <li>Claude 3.5 Sonnet, GPT-4o, DeepSeek support</li>
+          </ul>
         </div>
-    </section>
+      </div>
 
-    <!-- Architecture Section -->
-    <section id="architecture">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Architecture</span>
-                <h2 class="section-title">Four-Layer Automation Stack</h2>
-                <p class="section-subtitle">
-                    Modular, observable, and enterprise-grade. Each layer is independently scalable and monitored.
-                </p>
-            </div>
-
-            <div class="architecture-layers">
-                <div class="layer">
-                    <div class="layer-header">
-                        <span class="layer-badge">Layer 1</span>
-                        <h3>Ingestion Layer</h3>
-                    </div>
-                    <p>
-                        Webhooks, CSV upload, Google Sheets, and form submissions. Natural language ICP parser accepts freeform criteria ("Series A fintech in SF with 20+ employees"). Data is normalized, validated, and queued for processing.
-                    </p>
-                </div>
-
-                <div class="layer">
-                    <div class="layer-header">
-                        <span class="layer-badge">Layer 2</span>
-                        <h3>Data Enrichment</h3>
-                    </div>
-                    <p>
-                        Multi-source enrichment via Clay (waterfall logic), ZoomInfo (firmographic data), and Apollo (verified emails). Real-time deduplication against HubSpot/Salesforce. Deliverability checks via NeverBounce. Custom scoring models for fit and intent.
-                    </p>
-                </div>
-
-                <div class="layer">
-                    <div class="layer-header">
-                        <span class="layer-badge">Layer 3</span>
-                        <h3>AI Reasoning Core</h3>
-                    </div>
-                    <p>
-                        Claude 3.5 Sonnet with custom prompt chains. Deep research synthesis, pain point hypothesis generation, and PAS copywriting. Contextual awareness from web scraping (news, blog posts, earnings calls). Output validated for tone, length, and relevance.
-                    </p>
-                </div>
-
-                <div class="layer">
-                    <div class="layer-header">
-                        <span class="layer-badge">Layer 4</span>
-                        <h3>CRM Shield & Sequencer</h3>
-                    </div>
-                    <p>
-                        Approval gates for human review. Write to HubSpot/Salesforce with field mapping and conflict resolution. Enroll contacts in sequences (Outreach, SalesLoft, Apollo). Real-time alerts via Slack. Dashboards for pipeline velocity, reply rates, and conversion metrics.
-                    </p>
-                </div>
-            </div>
+      <div class="feature-card">
+        <div class="feature-icon-lg">✅</div>
+        <div class="feature-content">
+          <h3 class="feature-title">Human Approval Gates</h3>
+          <p class="feature-desc">
+            High-impact actions default to approval mode. Send rich Slack cards with 1-click confirmation webhooks. 
+            Approve or reject batches before enrollment—no surprises, full control.
+          </p>
+          <ul class="feature-points">
+            <li>Slack Block Kit approval cards</li>
+            <li>Batch review with prospect summaries</li>
+            <li>Auto-enroll or manual review per campaign</li>
+          </ul>
         </div>
-    </section>
+      </div>
 
-    <!-- Tech Stack Section -->
-    <section id="tech">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Technology</span>
-                <h2 class="section-title">Enterprise-Grade Tool Stack</h2>
-                <p class="section-subtitle">
-                    Best-in-class integrations, self-hosted or cloud. We handle setup, licensing, and ongoing maintenance.
-                </p>
-            </div>
-
-            <div class="tech-stack">
-                <div class="tech-card">
-                    <h4>n8n Workflows</h4>
-                    <p>Self-hosted automation platform. Visual builder, version control, and logging.</p>
-                </div>
-                <div class="tech-card">
-                    <h4>Clay</h4>
-                    <p>Waterfall enrichment with 50+ data sources. Custom scrapers and AI research.</p>
-                </div>
-                <div class="tech-card">
-                    <h4>ZoomInfo</h4>
-                    <p>B2B firmographic and contact data. Real-time org charts and tech stack intel.</p>
-                </div>
-                <div class="tech-card">
-                    <h4>Apollo</h4>
-                    <p>Email verification and sequencing. 250M+ contacts with deliverability scoring.</p>
-                </div>
-                <div class="tech-card">
-                    <h4>Claude 3.5 Sonnet</h4>
-                    <p>200K context window. PAS copywriting, research synthesis, and reasoning chains.</p>
-                </div>
-                <div class="tech-card">
-                    <h4>HubSpot</h4>
-                    <p>CRM sync, contact creation, and sequence enrollment. Custom property mapping.</p>
-                </div>
-                <div class="tech-card">
-                    <h4>Salesforce</h4>
-                    <p>Enterprise CRM integration. Lead routing, campaign tracking, and reporting.</p>
-                </div>
-                <div class="tech-card">
-                    <h4>Slack</h4>
-                    <p>Real-time alerts, approval workflows, and team dashboards.</p>
-                </div>
-            </div>
+      <div class="feature-card">
+        <div class="feature-icon-lg">📊</div>
+        <div class="feature-content">
+          <h3 class="feature-title">Full Execution Observability</h3>
+          <p class="feature-desc">
+            Built-in error handling and structured run data. The framework includes diagnostic tools to analyze 
+            node-level failures, extract error messages, and synthesize remediation plans automatically.
+          </p>
+          <ul class="feature-points">
+            <li>Node-level error extraction from runData</li>
+            <li>Root cause analysis with HTTP status codes</li>
+            <li>Export diagnostics as Markdown or XLSX</li>
+          </ul>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- Positioning Section -->
-    <section id="positioning">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Positioning</span>
-                <h2 class="section-title">Custom Prospect Engines for High-Growth B2B</h2>
-                <p class="section-subtitle">
-                    Not a product. Not a service. A revenue-generating AI skill that builds custom automation architectures for your outbound motion.
-                </p>
-            </div>
+  <!-- 5-Pillar Architecture Section -->
+  <section id="architecture">
+    <div class="section-header">
+      <span class="section-badge">Architecture</span>
+      <h2 class="section-title">The 5-Pillar Framework</h2>
+      <p class="section-subtitle">
+        Every prospect automation engine is built on five core pillars. This architecture ensures zero CRM pollution, 
+        deterministic data flows, and AI synthesis only where it adds value.
+      </p>
+    </div>
 
-            <div class="value-grid">
-                <div class="value-card">
-                    <div class="value-icon">🎯</div>
-                    <div class="value-content">
-                        <h3>For Sales Leaders</h3>
-                        <p>
-                            Multiply your team's capacity without hiring. Scale outbound pipeline with predictable reply rates, conversion metrics, and cost-per-lead visibility.
-                        </p>
-                    </div>
-                </div>
+    <div class="pillars-grid">
+      <div class="pillar-card">
+        <div class="pillar-icon">📥</div>
+        <h3 class="pillar-card-title">1. Trigger Ingest</h3>
+        <p class="pillar-card-desc">
+          Flexible prospect ingestion from multiple sources. Start workflows from webhooks, scheduled CRM syncs, 
+          or CSV uploads. Supports real-time intent signals and batch processing.
+        </p>
+        <ul class="pillar-features">
+          <li>Webhook triggers for real-time streams</li>
+          <li>Scheduled CRM syncs (daily, hourly)</li>
+          <li>CSV/spreadsheet batch uploads</li>
+          <li>Intent signal webhooks (RB2B, Clearbit)</li>
+        </ul>
+      </div>
 
-                <div class="value-card">
-                    <div class="value-icon">🤖</div>
-                    <div class="value-content">
-                        <h3>For AI Engineers</h3>
-                        <p>
-                            Clone this skill for your own agent workflows. Open architecture, documented prompts, and extensible data models. White-label for clients.
-                        </p>
-                    </div>
-                </div>
+      <div class="pillar-card">
+        <div class="pillar-icon">🛡️</div>
+        <h3 class="pillar-card-title">2. CRM Dedupe Shield</h3>
+        <p class="pillar-card-desc">
+          The mandatory safety layer. Query your CRM by domain and email before any contact. 
+          Automatically halt on active deals, client tags, or existing relationships.
+        </p>
+        <ul class="pillar-features">
+          <li>Check active deal stages & pipelines</li>
+          <li>Verify client/customer tags</li>
+          <li>Domain-level deduplication</li>
+          <li>Prevent sales team overlap</li>
+        </ul>
+      </div>
 
-                <div class="value-card">
-                    <div class="value-icon">🚀</div>
-                    <div class="value-content">
-                        <h3>For RevOps Teams</h3>
-                        <p>
-                            Full visibility into data flows, quality gates, and integration health. Logs, dashboards, and alerting built in from day one.
-                        </p>
-                    </div>
-                </div>
+      <div class="pillar-card">
+        <div class="pillar-icon">🔍</div>
+        <h3 class="pillar-card-title">3. Contact Reveal</h3>
+        <p class="pillar-card-desc">
+          Enrich prospects with accurate contact data. Use Clay, Apollo, ZoomInfo, or Amplemarket 
+          with boolean ICP filters for role-specific targeting.
+        </p>
+        <ul class="pillar-features">
+          <li>Boolean ICP title matching</li>
+          <li>Email verification & validation</li>
+          <li>Company firmographic enrichment</li>
+          <li>Multi-provider waterfall logic</li>
+        </ul>
+      </div>
 
-                <div class="value-card">
-                    <div class="value-icon">💼</div>
-                    <div class="value-content">
-                        <h3>For Founders</h3>
-                        <p>
-                            Turn your AI agent into a revenue engine. The PAE skill positions you as a strategic partner, not a feature vendor. Charge $15K–$50K per implementation.
-                        </p>
-                    </div>
-                </div>
-            </div>
+      <div class="pillar-card">
+        <div class="pillar-icon">✍️</div>
+        <h3 class="pillar-card-title">4. AI PAS Copywriting</h3>
+        <p class="pillar-card-desc">
+          Generate personalized 3-sentence emails using the Problem-Agitate-Solve framework. 
+          LLMs research the company and craft contextual, relevant copy.
+        </p>
+        <ul class="pillar-features">
+          <li>3-sentence PAS structure</li>
+          <li>Company-specific research synthesis</li>
+          <li>Claude 3.5 Sonnet or GPT-4o</li>
+          <li>Template variables for scale</li>
+        </ul>
+      </div>
+
+      <div class="pillar-card">
+        <div class="pillar-icon">📧</div>
+        <h3 class="pillar-card-title">5. Sequencer Enrollment</h3>
+        <p class="pillar-card-desc">
+          Enroll verified, enriched prospects into email sequences. Supports Smartlead, Instantly, 
+          Lemlist, and HubSpot Sales with personalized copy injection.
+        </p>
+        <ul class="pillar-features">
+          <li>Multi-platform sequence support</li>
+          <li>Dynamic variable injection</li>
+          <li>CRM status tracking</li>
+          <li>Unsubscribe & bounce handling</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9-Node Workflow Section -->
+  <section id="workflow">
+    <div class="section-header">
+      <span class="section-badge">Production Pattern</span>
+      <h2 class="section-title">The 9-Node Canonical Workflow</h2>
+      <p class="section-subtitle">
+        Every PAE implementation follows this proven 9-node graph. It's the battle-tested pattern 
+        for building scalable, observable, and safe prospecting engines.
+      </p>
+    </div>
+
+    <div class="workflow-container">
+      <div class="nodes-grid">
+        <div class="node-card" onclick="toggleNode(this, 1)">
+          <div class="node-number">01</div>
+          <div class="node-label">Pillar 1</div>
+          <h3 class="node-title">Trigger Ingest</h3>
+          <p class="node-desc">Ingest raw prospect stream from webhooks, schedules, or CSV uploads.</p>
+          <p class="node-tech">n8n-nodes-base.webhook | scheduleTrigger</p>
+          <div class="node-detail" id="detail-1">
+            <h4>Implementation Details</h4>
+            <p>Supports three ingestion patterns: (1) Webhook with binary data for CSV, (2) Scheduled CRM sync pulling uncontacted leads, (3) Real-time intent signals from visitor ID tools.</p>
+          </div>
         </div>
-    </section>
 
-    <!-- CTA Section -->
-    <section>
-        <div class="container">
-            <div class="cta-section">
-                <h2>Ready to Build Your Prospect Engine?</h2>
-                <p>Live in 30 days. You own the code. Your reps save 20+ hours per week.</p>
-                <div class="cta-group" style="justify-content: center;">
-                    <a href="https://www.salesgency.com" class="btn btn-primary">Schedule Discovery Call</a>
-                    <a href="https://github.com/diamitani/salesgency-pae-proposal" class="btn btn-secondary">View GitHub Repo</a>
-                </div>
-            </div>
+        <div class="node-card" onclick="toggleNode(this, 2)">
+          <div class="node-number">02</div>
+          <div class="node-label">Data Layer</div>
+          <h3 class="node-title">Data Normalizer</h3>
+          <p class="node-desc">Clean domains, trim whitespace, normalize job titles, standardize schema.</p>
+          <p class="node-tech">n8n-nodes-base.code (JavaScript/Python)</p>
+          <div class="node-detail" id="detail-2">
+            <h4>Implementation Details</h4>
+            <p>Code node that sanitizes input data: extracts root domains, removes special characters, normalizes job titles to consistent format, and ensures all required fields are present before CRM check.</p>
+          </div>
         </div>
-    </section>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <p>
-                &copy; 2026 SalesGency. Built with <span style="color: var(--cobalt);">♥</span> for revenue teams.
-                <br>
-                <a href="https://www.salesgency.com" class="footer-link">Website</a>
-                <a href="https://www.salesgency.com/services.html" class="footer-link">Services</a>
-                <a href="https://github.com/diamitani/salesgency-pae-proposal" class="footer-link">GitHub</a>
-            </p>
+        <div class="node-card" onclick="toggleNode(this, 3)">
+          <div class="node-number">03</div>
+          <div class="node-label">Pillar 2</div>
+          <h3 class="node-title">CRM Dedupe Gate</h3>
+          <p class="node-desc">Query CRM by domain/email. Halt on active deals or client tags.</p>
+          <p class="node-tech">HubSpot | Salesforce | Attio | Pipedrive</p>
+          <div class="node-detail" id="detail-3">
+            <h4>Implementation Details</h4>
+            <p>Queries your CRM system by domain and email. Checks for: (1) Active deals in pipeline, (2) Client/customer tags, (3) Existing contact records. Drops prospects with matches to prevent overlap.</p>
+          </div>
         </div>
-    </footer>
 
-    <script>
-        // Animate elements on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
+        <div class="node-card" onclick="toggleNode(this, 4)">
+          <div class="node-number">04</div>
+          <div class="node-label">Pillar 3</div>
+          <h3 class="node-title">Data Enrichment</h3>
+          <p class="node-desc">Contact reveal with ICP title filters via Clay, Apollo, or ZoomInfo.</p>
+          <p class="node-tech">Clay | Apollo | ZoomInfo | Amplemarket</p>
+          <div class="node-detail" id="detail-4">
+            <h4>Implementation Details</h4>
+            <p>HTTP Request to enrichment provider with boolean ICP filters (e.g., ["VP of Sales", "Head of RevOps"]). Returns verified emails, phone numbers, and firmographic data. Supports waterfall logic across providers.</p>
+          </div>
+        </div>
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-in');
-                }
-            });
-        }, observerOptions);
+        <div class="node-card" onclick="toggleNode(this, 5)">
+          <div class="node-number">05</div>
+          <div class="node-label">Pillar 4</div>
+          <h3 class="node-title">AI PAS Reasoner</h3>
+          <p class="node-desc">LLM generates 3-sentence Problem-Agitate-Solve personalized copy.</p>
+          <p class="node-tech">Claude 3.5 Sonnet | GPT-4o | DeepSeek</p>
+          <div class="node-detail" id="detail-5">
+            <h4>Implementation Details</h4>
+            <p>AI agent researches the company/role and generates: (1) Problem: specific observation, (2) Agitate: quantified friction/loss, (3) Solve: low-friction intro with clear CTA. Uses structured prompts for consistency.</p>
+          </div>
+        </div>
 
-        document.querySelectorAll('.workflow-card, .node, .value-card, .tech-card, .layer').forEach(el => {
-            observer.observe(el);
-        });
+        <div class="node-card" onclick="toggleNode(this, 6)">
+          <div class="node-number">06</div>
+          <div class="node-label">Safety Gate</div>
+          <h3 class="node-title">Approval Switch</h3>
+          <p class="node-desc">IF/Switch routing: auto-approve or send to Slack for human review.</p>
+          <p class="node-tech">n8n-nodes-base.if | switch</p>
+          <div class="node-detail" id="detail-6">
+            <h4>Implementation Details</h4>
+            <p>Checks workflow config for auto_approve flag. If false, routes to Slack approval node. If true, proceeds directly to CRM upsert and enrollment. Enables campaign-level safety control.</p>
+          </div>
+        </div>
 
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-    </script>
+        <div class="node-card" onclick="toggleNode(this, 7)">
+          <div class="node-number">07</div>
+          <div class="node-label">CRM Layer</div>
+          <h3 class="node-title">CRM Upsert</h3>
+          <p class="node-desc">Create or update contact with OUTREACH_ACTIVE status and AI notes.</p>
+          <p class="node-tech">HubSpot | Salesforce | Attio | Pipedrive</p>
+          <div class="node-detail" id="detail-7">
+            <h4>Implementation Details</h4>
+            <p>Upserts contact record with: status = OUTREACH_ACTIVE, AI research notes in custom field, enrichment data (title, phone, company), and campaign tracking properties. Sets lifecycle stage appropriately.</p>
+          </div>
+        </div>
+
+        <div class="node-card" onclick="toggleNode(this, 8)">
+          <div class="node-number">08</div>
+          <div class="node-label">Pillar 5</div>
+          <h3 class="node-title">Sequencer Enroll</h3>
+          <p class="node-desc">Enroll in email sequence with personalized PAS copy and tracking.</p>
+          <p class="node-tech">Smartlead | Instantly | Lemlist | HubSpot</p>
+          <div class="node-detail" id="detail-8">
+            <h4>Implementation Details</h4>
+            <p>Enrolls verified prospect into specified sequence campaign. Injects personalized variables (name, company, PAS body, custom icebreaker). Syncs enrollment status back to CRM for observability.</p>
+          </div>
+        </div>
+
+        <div class="node-card" onclick="toggleNode(this, 9)">
+          <div class="node-number">09</div>
+          <div class="node-label">Approval Path</div>
+          <h3 class="node-title">Slack Alert</h3>
+          <p class="node-desc">Rich Block Kit card with prospect summary and 1-click approval webhook.</p>
+          <p class="node-tech">n8n-nodes-base.slack</p>
+          <div class="node-detail" id="detail-9">
+            <h4>Implementation Details</h4>
+            <p>Sends Slack message to SDR channel with: prospect details, AI research summary, PAS email preview, and action buttons (Approve/Reject). Approval triggers webhook that resumes workflow at Node 07.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features/Benefits Section -->
+  <section id="features">
+    <div class="section-header">
+      <span class="section-badge">Key Features</span>
+      <h2 class="section-title">Built for Production Scale</h2>
+      <p class="section-subtitle">
+        PAE isn't a prototype—it's the framework for building real revenue engines. 
+        These features ensure your workflows are safe, observable, and scalable from day one.
+      </p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon-lg">🔐</div>
+        <div class="feature-content">
+          <h3 class="feature-title">Zero Hardcoded Secrets</h3>
+          <p class="feature-desc">
+            All API keys, credentials, and sensitive data live in environment variables or n8n credential stores. 
+            Workflows use expression syntax like <code>={{ $env.API_KEY }}</code> for secure, portable deployments.
+          </p>
+          <ul class="feature-points">
+            <li>Environment variable injection</li>
+            <li>n8n credential store integration</li>
+            <li>No secrets in workflow JSON</li>
+            <li>.env.template for easy setup</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon-lg">🧩</div>
+        <div class="feature-content">
+          <h3 class="feature-title">Sub-Workflow Modularization</h3>
+          <p class="feature-desc">
+            Isolate repeated business logic into dedicated sub-workflows. Domain deduplication, company enrichment, 
+            and web scraping become reusable modules called via executeWorkflow nodes.
+          </p>
+          <ul class="feature-points">
+            <li>DRY workflow architecture</li>
+            <li>Shared enrichment modules</li>
+            <li>Version-controlled sub-workflows</li>
+            <li>Simplified debugging & updates</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon-lg">🔌</div>
+        <div class="feature-content">
+          <h3 class="feature-title">MCP (Model Context Protocol) Integration</h3>
+          <p class="feature-desc">
+            Connect AI agents to your n8n instance via MCP. Expose approved workflows as tools that Claude, 
+            Cursor, or custom agents can discover and execute with proper permissions.
+          </p>
+          <ul class="feature-points">
+            <li>Instance-level MCP control plane</li>
+            <li>Expose workflows as callable tools</li>
+            <li>AI agent workflow orchestration</li>
+            <li>MCP client nodes for external servers</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon-lg">🩺</div>
+        <div class="feature-content">
+          <h3 class="feature-title">Execution Diagnostics & Self-Healing</h3>
+          <p class="feature-desc">
+            Built-in error analysis tools. Extract node-level failures from runData, identify root causes 
+            (401 Unauthorized, 429 Rate Limit, 500 errors), and get step-by-step remediation plans.
+          </p>
+          <ul class="feature-points">
+            <li>Node-level error extraction</li>
+            <li>HTTP status code analysis</li>
+            <li>Automated remediation synthesis</li>
+            <li>Export diagnostics as Markdown/XLSX</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technical Details Section -->
+  <section id="technical">
+    <div class="section-header">
+      <span class="section-badge">Technical Stack</span>
+      <h2 class="section-title">Built on Modern n8n Infrastructure</h2>
+      <p class="section-subtitle">
+        PAE leverages n8n's official node types, expression syntax, and API. 
+        Compatible with self-hosted and n8n Cloud deployments.
+      </p>
+    </div>
+
+    <div class="tech-grid">
+      <div class="tech-card">
+        <div class="tech-icon">⚙️</div>
+        <h3 class="tech-title">Core n8n Nodes</h3>
+        <p class="tech-desc">Production-ready node types for every pillar of the framework.</p>
+        <ul class="tech-list">
+          <li>webhook</li>
+          <li>scheduleTrigger</li>
+          <li>code (JS/Python)</li>
+          <li>httpRequest</li>
+          <li>if / switch</li>
+          <li>executeWorkflow</li>
+        </ul>
+      </div>
+
+      <div class="tech-card">
+        <div class="tech-icon">🔗</div>
+        <h3 class="tech-title">CRM Integrations</h3>
+        <p class="tech-desc">Native support for major CRM systems with dedupe and upsert logic.</p>
+        <ul class="tech-list">
+          <li>HubSpot</li>
+          <li>Salesforce</li>
+          <li>Attio</li>
+          <li>Pipedrive</li>
+          <li>Custom CRM (API)</li>
+        </ul>
+      </div>
+
+      <div class="tech-card">
+        <div class="tech-icon">💎</div>
+        <h3 class="tech-title">Data Providers</h3>
+        <p class="tech-desc">Multi-provider enrichment with waterfall logic for maximum coverage.</p>
+        <ul class="tech-list">
+          <li>Clay</li>
+          <li>Apollo.io</li>
+          <li>ZoomInfo</li>
+          <li>Amplemarket</li>
+          <li>Clearbit</li>
+        </ul>
+      </div>
+
+      <div class="tech-card">
+        <div class="tech-icon">🤖</div>
+        <h3 class="tech-title">AI Models</h3>
+        <p class="tech-desc">Best-in-class LLMs for company research and personalized copywriting.</p>
+        <ul class="tech-list">
+          <li>Claude 3.5 Sonnet</li>
+          <li>GPT-4o</li>
+          <li>DeepSeek</li>
+          <li>Gemini 2.0</li>
+          <li>Custom endpoints</li>
+        </ul>
+      </div>
+
+      <div class="tech-card">
+        <div class="tech-icon">📨</div>
+        <h3 class="tech-title">Email Sequencers</h3>
+        <p class="tech-desc">Direct enrollment into leading cold email platforms with API support.</p>
+        <ul class="tech-list">
+          <li>Smartlead</li>
+          <li>Instantly.ai</li>
+          <li>Lemlist</li>
+          <li>HubSpot Sales</li>
+          <li>Reply.io</li>
+        </ul>
+      </div>
+
+      <div class="tech-card">
+        <div class="tech-icon">🔔</div>
+        <h3 class="tech-title">Notification Channels</h3>
+        <p class="tech-desc">Real-time alerts and approval workflows via modern collaboration tools.</p>
+        <ul class="tech-list">
+          <li>Slack (Block Kit)</li>
+          <li>Discord</li>
+          <li>Teams</li>
+          <li>Email</li>
+          <li>Custom webhooks</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Install/Get Started Section -->
+  <section id="install">
+    <div class="section-header">
+      <span class="section-badge">Get Started</span>
+      <h2 class="section-title">Deploy Your First PAE Workflow</h2>
+      <p class="section-subtitle">
+        Import the 9-node template, configure your credentials, and start building CRM-shielded 
+        prospecting engines in minutes.
+      </p>
+    </div>
+
+    <div class="install-container">
+      <div class="install-steps">
+        <div class="install-step">
+          <div class="install-number">1</div>
+          <h3 class="install-step-title">Clone the Repository</h3>
+          <p class="install-step-desc">
+            Clone the PAE repository to access the 9-node template, build docs, and reference implementations.
+          </p>
+        </div>
+        <div class="install-step">
+          <div class="install-number">2</div>
+          <h3 class="install-step-title">Configure Credentials</h3>
+          <p class="install-step-desc">
+            Set up your CRM, data provider, AI model, and sequencer credentials in n8n or via environment variables.
+          </p>
+        </div>
+        <div class="install-step">
+          <div class="install-number">3</div>
+          <h3 class="install-step-title">Import & Customize</h3>
+          <p class="install-step-desc">
+            Import the .n8n.json template into your instance, customize ICP filters and PAS prompts, and activate.
+          </p>
+        </div>
+      </div>
+
+      <div class="code-block">
+        <code>
+# Clone the repository<br>
+git clone https://github.com/yourusername/prospect-automation-engine.git<br>
+cd prospect-automation-engine<br>
+<br>
+# Copy environment template<br>
+cp .env.template .env<br>
+<br>
+# Configure your credentials in .env<br>
+# HUBSPOT_API_KEY=your_key_here<br>
+# CLAY_API_KEY=your_key_here<br>
+# ANTHROPIC_API_KEY=your_key_here<br>
+# SMARTLEAD_API_KEY=your_key_here<br>
+<br>
+# Import the 9-node template in n8n<br>
+# Settings → Import Workflow → Select pae-9-node-template.json
+        </code>
+      </div>
+
+      <div style="text-align: center; margin-top: 48px;">
+        <a href="https://github.com/yourusername/pae" class="btn-primary" style="margin-right: 16px;">View Full Documentation →</a>
+        <a href="https://github.com/yourusername/pae/tree/main/examples" class="btn-secondary">See Example Workflows</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <div class="cta-section">
+    <h2>Ready to Build Your Prospecting Engine?</h2>
+    <p>
+      Deploy production-ready outbound automation with the 5-Pillar framework. 
+      Join teams scaling from 10 to 10,000 prospects per day with zero CRM pollution.
+    </p>
+    <div class="cta-buttons">
+      <a href="https://github.com/yourusername/pae" class="btn-white">Get Started Free →</a>
+      <a href="https://github.com/yourusername/pae/blob/main/docs/README.md" class="btn-outline">Read the Docs</a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div>
+        <div class="footer-brand">P<span>A</span>E</div>
+        <p class="footer-desc">
+          The production-ready 5-Pillar framework for building autonomous prospecting engines with n8n. 
+          CRM-shielded, AI-powered, and built for scale.
+        </p>
+      </div>
+      <div class="footer-section">
+        <h4>Product</h4>
+        <ul class="footer-links">
+          <li><a href="#architecture">Architecture</a></li>
+          <li><a href="#workflow">9-Node Pattern</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#technical">Tech Stack</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Resources</h4>
+        <ul class="footer-links">
+          <li><a href="https://github.com/yourusername/pae">GitHub</a></li>
+          <li><a href="https://github.com/yourusername/pae/blob/main/docs/README.md">Documentation</a></li>
+          <li><a href="https://github.com/yourusername/pae/tree/main/examples">Examples</a></li>
+          <li><a href="https://github.com/yourusername/pae/issues">Support</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Community</h4>
+        <ul class="footer-links">
+          <li><a href="https://discord.gg/pae">Discord</a></li>
+          <li><a href="https://twitter.com/pae">Twitter</a></li>
+          <li><a href="https://github.com/yourusername/pae/discussions">Discussions</a></li>
+          <li><a href="https://github.com/yourusername/pae/blob/main/CONTRIBUTING.md">Contributing</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Prospect Automation Engine. Open source under MIT License.</p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleNode(element, nodeId) {
+      const detail = document.getElementById(`detail-${nodeId}`);
+      const allDetails = document.querySelectorAll('.node-detail');
+      const allCards = document.querySelectorAll('.node-card');
+      
+      // Remove active class from all cards
+      allCards.forEach(card => card.classList.remove('active'));
+      
+      // Hide all details
+      allDetails.forEach(d => {
+        if (d !== detail) {
+          d.classList.remove('active');
+        }
+      });
+      
+      // Toggle current detail
+      if (detail.classList.contains('active')) {
+        detail.classList.remove('active');
+        element.classList.remove('active');
+      } else {
+        detail.classList.add('active');
+        element.classList.add('active');
+      }
+    }
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+  </script>
+
 </body>
 </html>
