@@ -1553,26 +1553,32 @@
 
       <div class="code-block">
         <code>
-# Download from GitHub<br>
-git clone https://github.com/yourusername/prospect-automation-engine.git<br>
-cd prospect-automation-engine<br>
+# Install the PAE skill (teaches AI agents to build prospecting workflows)<br>
+# Note: This is a skill/guide, not a pre-built workflow<br>
 <br>
-# Copy the setup file<br>
-cp .env.template .env<br>
+# Option 1: Manual install<br>
+mkdir -p ~/.hermes/skills<br>
+cd ~/.hermes/skills<br>
+# Download the skill files and place in ~/.hermes/skills/pae/<br>
 <br>
-# Add your account credentials to .env<br>
-# HUBSPOT_API_KEY=your_key_here<br>
-# CLAY_API_KEY=your_key_here<br>
-# ANTHROPIC_API_KEY=your_key_here<br>
-# SMARTLEAD_API_KEY=your_key_here<br>
+# Option 2: Use with your AI agent<br>
+# Tell your AI agent (Claude, ChatGPT, etc.):<br>
+# "Load the PAE skill and help me build an n8n prospecting workflow"<br>
 <br>
-# Then in n8n: Settings → Import Workflow → Select the template file
+# The skill teaches AI how to:<br>
+# - Design the 5-step process<br>
+# - Connect your tools (HubSpot, Clay, Smartlead, etc.)<br>
+# - Build the n8n workflow step-by-step<br>
+# - Set up approval gates and error handling
         </code>
       </div>
 
       <div style="text-align: center; margin-top: 48px;">
-        <a href="https://github.com/yourusername/pae" class="btn-primary" style="margin-right: 16px;">View Full Guide →</a>
-        <a href="https://github.com/yourusername/pae/tree/main/examples" class="btn-secondary">See Examples</a>
+        <p style="color: var(--text-secondary); margin-bottom: 24px;">
+          <strong>What is PAE?</strong> PAE is a skill/knowledge pack that teaches AI agents how to build prospecting automation. It's not a ready-to-use workflow—it's a guide that helps you build one customized for your business.
+        </p>
+        <a href="https://diamitani.github.io/pae-landing/" class="btn-primary" style="margin-right: 16px;">Learn More →</a>
+        <a href="#how-it-works" class="btn-secondary">See How It Works</a>
       </div>
     </div>
   </section>
@@ -1581,11 +1587,11 @@ cp .env.template .env<br>
   <div class="cta-section">
     <h2>Ready to Automate Your Outreach?</h2>
     <p>
-      Stop wasting time on manual emails. Start sending personalized outreach at scale—safely and automatically.
+      Stop wasting time on manual emails. Use this framework to build your own prospecting automation in n8n—customized for your business.
     </p>
     <div class="cta-buttons">
-      <a href="https://github.com/yourusername/pae" class="btn-white">Get Started Free →</a>
-      <a href="https://github.com/yourusername/pae/blob/main/docs/README.md" class="btn-outline">Read the Guide</a>
+      <a href="#install" class="btn-white">Get the Skill →</a>
+      <a href="#how-it-works" class="btn-outline">Learn How It Works</a>
     </div>
   </div>
 
@@ -1610,24 +1616,24 @@ cp .env.template .env<br>
       <div class="footer-section">
         <h4>Resources</h4>
         <ul class="footer-links">
-          <li><a href="https://github.com/yourusername/pae">GitHub</a></li>
-          <li><a href="https://github.com/yourusername/pae/blob/main/docs/README.md">Setup Guide</a></li>
-          <li><a href="https://github.com/yourusername/pae/tree/main/examples">Examples</a></li>
-          <li><a href="https://github.com/yourusername/pae/issues">Get Help</a></li>
+          <li><a href="#install">Get Started</a></li>
+          <li><a href="https://diamitani.github.io/pae-landing/">Landing Page</a></li>
+          <li><a href="https://hermes-agent.nousresearch.com/docs">Hermes Docs</a></li>
+          <li><a href="https://docs.n8n.io">n8n Documentation</a></li>
         </ul>
       </div>
       <div class="footer-section">
         <h4>Community</h4>
         <ul class="footer-links">
-          <li><a href="https://discord.gg/pae">Discord</a></li>
-          <li><a href="https://twitter.com/pae">Twitter</a></li>
-          <li><a href="https://github.com/yourusername/pae/discussions">Discussions</a></li>
-          <li><a href="https://github.com/yourusername/pae/blob/main/CONTRIBUTING.md">Contributing</a></li>
+          <li><a href="https://github.com/diamitani">GitHub</a></li>
+          <li><a href="https://twitter.com/iampatd">Twitter</a></li>
+          <li><a href="https://linkedin.com/in/diamitani">LinkedIn</a></li>
+          <li><a href="mailto:patrick.diamitani@gmail.com">Contact</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2026 Prospect Automation Engine. Open source under MIT License.</p>
+      <p>© 2026 Prospect Automation Engine. Created by Patrick Diamitani.</p>
     </div>
   </footer>
 
