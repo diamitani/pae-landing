@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prospect Automation Engine (PAE) — Powered by SalesGency</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cobalt: #2563EB;
+            --cobalt-dark: #1d4ed8;
+            --cobalt-light: #3b82f6;
+            --oled-black: #000000;
+            --dark-900: #0a0a0a;
+            --dark-800: #111111;
+            --dark-700: #1a1a1a;
+            --dark-600: #222222;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-tertiary: #707070;
+            --accent-green: #10b981;
+            --accent-amber: #f59e0b;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+            background: var(--oled-black);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Grid Background Animation */
+        .grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.15;
+            background-image: 
+                linear-gradient(var(--cobalt) 1px, transparent 1px),
+                linear-gradient(90deg, var(--cobalt) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(60px, 60px); }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--dark-700);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--cobalt) 0%, var(--cobalt-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-tag {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--dark-600);
+            border-radius: 2rem;
+        }
+
+        /* Hero Section - Split Screen */
+        .hero {
+            min-height: 90vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            padding: 4rem 0;
+        }
+
+        .hero-left h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-gradient-text {
+            background: linear-gradient(135deg, var(--cobalt) 0%, var(--cobalt-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .stat {
+            text-align: left;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--cobalt);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--cobalt);
+            color: var(--text-primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--cobalt-light);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--dark-600);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--cobalt);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Right - Architecture Visual */
+        .hero-right {
+            position: relative;
+        }
+
+        .architecture-card {
+            background: linear-gradient(135deg, var(--dark-800) 0%, var(--dark-900) 100%);
+            border: 1px solid var(--dark-700);
+            border-radius: 1rem;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .architecture-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--cobalt), transparent);
+        }
+
+        .arch-title {
+            font-size: 0.875rem;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+        }
+
+        .pipeline-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .step {
+            background: var(--dark-700);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border-left: 3px solid var(--cobalt);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .step:hover {
+            background: var(--dark-600);
+            transform: translateX(0.5rem);
+            border-left-color: var(--cobalt-light);
+        }
+
+        .step-number {
+            background: var(--cobalt);
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.875rem;
+            flex-shrink: 0;
+        }
+
+        .step-content h4 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .step-content p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 6rem 0;
+            border-bottom: 1px solid var(--dark-700);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-tag {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--cobalt);
+            border-radius: 2rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* 6-Step Workflow */
+        .workflow-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .workflow-card {
+            background: var(--dark-800);
+            border: 1px solid var(--dark-700);
+            border-radius: 1rem;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .workflow-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--cobalt), var(--cobalt-light));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .workflow-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .workflow-card:hover {
+            border-color: var(--cobalt);
+            transform: translateY(-0.5rem);
+            box-shadow: 0 20px 60px rgba(37, 99, 235, 0.2);
+        }
+
+        .workflow-icon {
+            width: 3rem;
+            height: 3rem;
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .workflow-number {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--dark-700);
+        }
+
+        .workflow-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .workflow-card p {
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+            line-height: 1.7;
+        }
+
+        /* 9-Node Pipeline */
+        .pipeline-visual {
+            background: var(--dark-800);
+            border: 1px solid var(--dark-700);
+            border-radius: 1rem;
+            padding: 3rem;
+            margin-top: 3rem;
+        }
+
+        .nodes-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .node {
+            background: var(--dark-900);
+            border: 1px solid var(--dark-600);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .node::after {
+            content: '→';
+            position: absolute;
+            right: -2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--cobalt);
+            font-size: 1.5rem;
+        }
+
+        .node:nth-child(3n)::after,
+        .node:last-child::after {
+            display: none;
+        }
+
+        .node-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--cobalt);
+            margin-bottom: 0.5rem;
+        }
+
+        .node-name {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .node-desc {
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+        }
+
+        /* Value Props */
+        .value-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .value-card {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .value-icon {
+            width: 3rem;
+            height: 3rem;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.2), rgba(37, 99, 235, 0.05));
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .value-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .value-content p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Tech Stack */
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .tech-card {
+            background: var(--dark-800);
+            border: 1px solid var(--dark-700);
+            border-radius: 0.75rem;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .tech-card:hover {
+            border-color: var(--cobalt);
+            transform: translateY(-0.25rem);
+        }
+
+        .tech-card h4 {
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tech-card p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Architecture Layers */
+        .architecture-layers {
+            display: grid;
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .layer {
+            background: linear-gradient(135deg, var(--dark-800) 0%, var(--dark-900) 100%);
+            border: 1px solid var(--dark-700);
+            border-radius: 0.75rem;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .layer-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .layer-badge {
+            background: var(--cobalt);
+            color: var(--text-primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .layer h3 {
+            font-size: 1.5rem;
+        }
+
+        .layer p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--dark-900) 0%, var(--oled-black) 100%);
+            border: 1px solid var(--dark-700);
+            border-radius: 1rem;
+            padding: 4rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid var(--dark-700);
+        }
+
+        footer p {
+            color: var(--text-tertiary);
+            font-size: 0.875rem;
+        }
+
+        .footer-link {
+            color: var(--cobalt);
+            text-decoration: none;
+            margin: 0 0.5rem;
+        }
+
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .workflow-grid,
+            .nodes-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .value-grid,
+            .tech-stack {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-left h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .workflow-grid,
+            .nodes-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(2rem);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Grid Background -->
+    <div class="grid-bg"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">SalesGency</div>
+                <div class="header-tag">Prospect Automation Engine</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section - Split Screen -->
+    <section class="hero">
+        <div class="container" style="display: contents;">
+            <div class="hero-left">
+                <h1>
+                    Build <span class="hero-gradient-text">Custom Prospect Engines</span> That Scale Outbound Pipeline
+                </h1>
+                <p class="hero-subtitle">
+                    The Prospect Automation Engine (PAE) is a revenue-generating AI skill that builds custom automation architectures for B2B companies. Live in 30 days, you own the code, and your reps save 20+ hours per week.
+                </p>
+
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-value">3.4×</span>
+                        <span class="stat-label">Higher Reply Rate</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value">20+</span>
+                        <span class="stat-label">Hours Saved/Week</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value">30</span>
+                        <span class="stat-label">Days to Live</span>
+                    </div>
+                </div>
+
+                <div class="cta-group">
+                    <a href="#workflow" class="btn btn-primary">See How It Works</a>
+                    <a href="#architecture" class="btn btn-secondary">View Architecture</a>
+                </div>
+            </div>
+
+            <div class="hero-right">
+                <div class="architecture-card">
+                    <div class="arch-title">6-Step Workflow</div>
+                    <div class="pipeline-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Lead Intake & NLP Search</h4>
+                                <p>Ingest ICP criteria, normalize data</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Get Companies & Contacts</h4>
+                                <p>Multi-source enrichment via Clay/ZoomInfo</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Deep Web Research</h4>
+                                <p>Account intelligence & signal detection</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h4>Pain Point Hypothesis</h4>
+                                <p>AI-powered insight generation</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">5</div>
+                            <div class="step-content">
+                                <h4>Custom AI Copywriting (PAS)</h4>
+                                <p>Claude 3.5 Sonnet personalization</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">6</div>
+                            <div class="step-content">
+                                <h4>CRM Sync & Sequencer Dispatch</h4>
+                                <p>HubSpot/Salesforce integration</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6-Step Workflow Section -->
+    <section id="workflow">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Workflow</span>
+                <h2 class="section-title">6-Step Prospect Automation Flow</h2>
+                <p class="section-subtitle">
+                    From raw lead data to personalized outreach in minutes, not days. Each step is powered by AI reasoning and validated by human approval gates.
+                </p>
+            </div>
+
+            <div class="workflow-grid">
+                <div class="workflow-card">
+                    <div class="workflow-number">01</div>
+                    <div class="workflow-icon">🎯</div>
+                    <h3>Lead Intake & NLP Search</h3>
+                    <p>
+                        Ingest ICP criteria from forms, CSV, or API. Natural language processing normalizes company names, industries, and intent signals.
+                    </p>
+                </div>
+
+                <div class="workflow-card">
+                    <div class="workflow-number">02</div>
+                    <div class="workflow-icon">🏢</div>
+                    <h3>Get Companies & Contacts</h3>
+                    <p>
+                        Multi-source enrichment via Clay, ZoomInfo, and Apollo. Deduplicate against CRM, validate email deliverability, and score fit.
+                    </p>
+                </div>
+
+                <div class="workflow-card">
+                    <div class="workflow-number">03</div>
+                    <div class="workflow-icon">🔍</div>
+                    <h3>Deep Web & Account Research</h3>
+                    <p>
+                        Scrape company websites, press releases, funding news, and tech stack. Extract buying signals and trigger events.
+                    </p>
+                </div>
+
+                <div class="workflow-card">
+                    <div class="workflow-number">04</div>
+                    <div class="workflow-icon">💡</div>
+                    <h3>Pain Point Hypothesis</h3>
+                    <p>
+                        Claude 3.5 Sonnet analyzes research to generate contextualized pain points, value props, and conversation starters.
+                    </p>
+                </div>
+
+                <div class="workflow-card">
+                    <div class="workflow-number">05</div>
+                    <div class="workflow-icon">✍️</div>
+                    <h3>Custom AI Copywriting (PAS)</h3>
+                    <p>
+                        Problem-Agitate-Solution framework. Generate personalized email sequences, LinkedIn messages, and call scripts.
+                    </p>
+                </div>
+
+                <div class="workflow-card">
+                    <div class="workflow-number">06</div>
+                    <div class="workflow-icon">🚀</div>
+                    <h3>CRM Sync & Sequencer Dispatch</h3>
+                    <p>
+                        Push contacts to HubSpot/Salesforce, enroll in sequences, and notify reps. Real-time dashboards track performance.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9-Node Pipeline Section -->
+    <section id="pipeline">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">n8n Pipeline</span>
+                <h2 class="section-title">9-Node Automation Architecture</h2>
+                <p class="section-subtitle">
+                    Built on n8n workflows, the PAE pipeline is modular, transparent, and self-healing. Each node logs to your data warehouse for full observability.
+                </p>
+            </div>
+
+            <div class="pipeline-visual">
+                <div class="nodes-grid">
+                    <div class="node">
+                        <div class="node-label">Trigger</div>
+                        <div class="node-name">Schedule Trigger</div>
+                        <div class="node-desc">Cron-based or webhook</div>
+                    </div>
+                    <div class="node">
+                        <div class="node-label">Normalize</div>
+                        <div class="node-name">Data Normalizer</div>
+                        <div class="node-desc">Clean & validate inputs</div>
+                    </div>
+                    <div class="node">
+                        <div class="node-label">Dedup</div>
+                        <div class="node-name">Deduplication Query</div>
+                        <div class="node-desc">Check CRM for existing records</div>
+                    </div>
+                    <div class="node">
+                        <div class="node-label">Enrich</div>
+                        <div class="node-name">Data Tool Adapter</div>
+                        <div class="node-desc">Clay/ZoomInfo/Apollo API</div>
+                    </div>
+                    <div class="node">
+                        <div class="node-label">Research</div>
+                        <div class="node-name">AI Research & PAS Copy</div>
+                        <div class="node-desc">Claude 3.5 Sonnet reasoning</div>
+                    </div>
+                    <div class="node">
+                        <div class="node-label">Gate</div>
+                        <div class="node-name">Approval Switch</div>
+                        <div class="node-desc">Human-in-the-loop review</div>
+                    </div>
+                    <div class="node">
+                        <div class="node-label">Sync</div>
+                        <div class="node-name">CRM Contact Creation</div>
+                        <div class="node-desc">HubSpot/Salesforce write</div>
+                    </div>
+                    <div class="node">
+                        <div class="node-label">Dispatch</div>
+                        <div class="node-name">Sequence Enrollment</div>
+                        <div class="node-desc">Trigger outbound cadence</div>
+                    </div>
+                    <div class="node">
+                        <div class="node-label">Notify</div>
+                        <div class="node-name">Review Alert</div>
+                        <div class="node-desc">Slack/Email summary</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Value Props Section -->
+    <section id="value">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Why PAE</span>
+                <h2 class="section-title">Built for Revenue Teams That Scale</h2>
+                <p class="section-subtitle">
+                    Stop burning hours on manual research. The PAE skill turns your AI agents into prospect generation machines.
+                </p>
+            </div>
+
+            <div class="value-grid">
+                <div class="value-card">
+                    <div class="value-icon">⚡</div>
+                    <div class="value-content">
+                        <h3>Live in 30 Days</h3>
+                        <p>
+                            Discovery, architecture, deployment, and training. We map your ICP, integrate your stack, and hand you a running system with full documentation.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">🔒</div>
+                    <div class="value-content">
+                        <h3>You Own the Architecture</h3>
+                        <p>
+                            No vendor lock-in. The entire n8n workflow, prompts, and data models live in your environment. Extend, fork, or white-label as needed.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">👥</div>
+                    <div class="value-content">
+                        <h3>Built for Frontline Reps</h3>
+                        <p>
+                            Simple Slack/HubSpot interfaces. Reps submit ICPs, approve prospects, and see personalized copy in seconds—no technical knowledge required.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">📈</div>
+                    <div class="value-content">
+                        <h3>3.4× Higher Reply Rate</h3>
+                        <p>
+                            Personalized PAS copy outperforms templated outreach by 340%. AI reasoning generates contextual angles that resonate with decision-makers.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">⏱️</div>
+                    <div class="value-content">
+                        <h3>20+ Hours Saved Per Rep/Week</h3>
+                        <p>
+                            Automated research, enrichment, and copywriting. Your reps focus on calls, meetings, and closing—not manual data entry.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">🛡️</div>
+                    <div class="value-content">
+                        <h3>CRM Shield & Data Quality</h3>
+                        <p>
+                            Built-in deduplication, deliverability checks, and approval gates. Never pollute your CRM with bad data or duplicate contacts.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section id="architecture">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Architecture</span>
+                <h2 class="section-title">Four-Layer Automation Stack</h2>
+                <p class="section-subtitle">
+                    Modular, observable, and enterprise-grade. Each layer is independently scalable and monitored.
+                </p>
+            </div>
+
+            <div class="architecture-layers">
+                <div class="layer">
+                    <div class="layer-header">
+                        <span class="layer-badge">Layer 1</span>
+                        <h3>Ingestion Layer</h3>
+                    </div>
+                    <p>
+                        Webhooks, CSV upload, Google Sheets, and form submissions. Natural language ICP parser accepts freeform criteria ("Series A fintech in SF with 20+ employees"). Data is normalized, validated, and queued for processing.
+                    </p>
+                </div>
+
+                <div class="layer">
+                    <div class="layer-header">
+                        <span class="layer-badge">Layer 2</span>
+                        <h3>Data Enrichment</h3>
+                    </div>
+                    <p>
+                        Multi-source enrichment via Clay (waterfall logic), ZoomInfo (firmographic data), and Apollo (verified emails). Real-time deduplication against HubSpot/Salesforce. Deliverability checks via NeverBounce. Custom scoring models for fit and intent.
+                    </p>
+                </div>
+
+                <div class="layer">
+                    <div class="layer-header">
+                        <span class="layer-badge">Layer 3</span>
+                        <h3>AI Reasoning Core</h3>
+                    </div>
+                    <p>
+                        Claude 3.5 Sonnet with custom prompt chains. Deep research synthesis, pain point hypothesis generation, and PAS copywriting. Contextual awareness from web scraping (news, blog posts, earnings calls). Output validated for tone, length, and relevance.
+                    </p>
+                </div>
+
+                <div class="layer">
+                    <div class="layer-header">
+                        <span class="layer-badge">Layer 4</span>
+                        <h3>CRM Shield & Sequencer</h3>
+                    </div>
+                    <p>
+                        Approval gates for human review. Write to HubSpot/Salesforce with field mapping and conflict resolution. Enroll contacts in sequences (Outreach, SalesLoft, Apollo). Real-time alerts via Slack. Dashboards for pipeline velocity, reply rates, and conversion metrics.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section id="tech">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Technology</span>
+                <h2 class="section-title">Enterprise-Grade Tool Stack</h2>
+                <p class="section-subtitle">
+                    Best-in-class integrations, self-hosted or cloud. We handle setup, licensing, and ongoing maintenance.
+                </p>
+            </div>
+
+            <div class="tech-stack">
+                <div class="tech-card">
+                    <h4>n8n Workflows</h4>
+                    <p>Self-hosted automation platform. Visual builder, version control, and logging.</p>
+                </div>
+                <div class="tech-card">
+                    <h4>Clay</h4>
+                    <p>Waterfall enrichment with 50+ data sources. Custom scrapers and AI research.</p>
+                </div>
+                <div class="tech-card">
+                    <h4>ZoomInfo</h4>
+                    <p>B2B firmographic and contact data. Real-time org charts and tech stack intel.</p>
+                </div>
+                <div class="tech-card">
+                    <h4>Apollo</h4>
+                    <p>Email verification and sequencing. 250M+ contacts with deliverability scoring.</p>
+                </div>
+                <div class="tech-card">
+                    <h4>Claude 3.5 Sonnet</h4>
+                    <p>200K context window. PAS copywriting, research synthesis, and reasoning chains.</p>
+                </div>
+                <div class="tech-card">
+                    <h4>HubSpot</h4>
+                    <p>CRM sync, contact creation, and sequence enrollment. Custom property mapping.</p>
+                </div>
+                <div class="tech-card">
+                    <h4>Salesforce</h4>
+                    <p>Enterprise CRM integration. Lead routing, campaign tracking, and reporting.</p>
+                </div>
+                <div class="tech-card">
+                    <h4>Slack</h4>
+                    <p>Real-time alerts, approval workflows, and team dashboards.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Positioning Section -->
+    <section id="positioning">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Positioning</span>
+                <h2 class="section-title">Custom Prospect Engines for High-Growth B2B</h2>
+                <p class="section-subtitle">
+                    Not a product. Not a service. A revenue-generating AI skill that builds custom automation architectures for your outbound motion.
+                </p>
+            </div>
+
+            <div class="value-grid">
+                <div class="value-card">
+                    <div class="value-icon">🎯</div>
+                    <div class="value-content">
+                        <h3>For Sales Leaders</h3>
+                        <p>
+                            Multiply your team's capacity without hiring. Scale outbound pipeline with predictable reply rates, conversion metrics, and cost-per-lead visibility.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">🤖</div>
+                    <div class="value-content">
+                        <h3>For AI Engineers</h3>
+                        <p>
+                            Clone this skill for your own agent workflows. Open architecture, documented prompts, and extensible data models. White-label for clients.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">🚀</div>
+                    <div class="value-content">
+                        <h3>For RevOps Teams</h3>
+                        <p>
+                            Full visibility into data flows, quality gates, and integration health. Logs, dashboards, and alerting built in from day one.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">💼</div>
+                    <div class="value-content">
+                        <h3>For Founders</h3>
+                        <p>
+                            Turn your AI agent into a revenue engine. The PAE skill positions you as a strategic partner, not a feature vendor. Charge $15K–$50K per implementation.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section>
+        <div class="container">
+            <div class="cta-section">
+                <h2>Ready to Build Your Prospect Engine?</h2>
+                <p>Live in 30 days. You own the code. Your reps save 20+ hours per week.</p>
+                <div class="cta-group" style="justify-content: center;">
+                    <a href="https://www.salesgency.com" class="btn btn-primary">Schedule Discovery Call</a>
+                    <a href="https://github.com/diamitani/salesgency-pae-proposal" class="btn btn-secondary">View GitHub Repo</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>
+                &copy; 2026 SalesGency. Built with <span style="color: var(--cobalt);">♥</span> for revenue teams.
+                <br>
+                <a href="https://www.salesgency.com" class="footer-link">Website</a>
+                <a href="https://www.salesgency.com/services.html" class="footer-link">Services</a>
+                <a href="https://github.com/diamitani/salesgency-pae-proposal" class="footer-link">GitHub</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.workflow-card, .node, .value-card, .tech-card, .layer').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
