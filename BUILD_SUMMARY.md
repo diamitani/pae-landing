@@ -150,13 +150,11 @@ Each node card shows:
 - 3-step visual process
 - Numbered circles with titles and descriptions
 - Code block with installation commands:
-  ```bash
-  git clone https://github.com/yourusername/prospect-automation-engine.git
-  cd prospect-automation-engine
-  cp .env.template .env
-  # Configure credentials
-  # Import .n8n.json template in n8n
-  ```
+   ```bash
+   git clone https://github.com/diamitani/pae-skill.git
+   cd pae-skill
+   # Install into ~/.hermes/skills/pae/
+   ```
 - Dual CTAs: "View Full Documentation" + "See Example Workflows"
 
 ### 9. CTA Section

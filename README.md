@@ -66,7 +66,7 @@ Premium landing page for the Prospect Automation Engine skill powered by SalesGe
 
 8. **CTA Section**
    - Final conversion point with dual CTAs
-   - Links to SalesGency website and GitHub repo
+   - Links to PAE Skill GitHub repo (https://github.com/diamitani/pae-skill) and SalesGency website
 
 ## Technical Details
 
@@ -124,9 +124,10 @@ All styles are inline CSS variables in the `<style>` block. Update:
 - Grid layouts in CSS Grid sections
 
 ## Links
+- **PAE Skill GitHub Repo**: https://github.com/diamitani/pae-skill
+- **Landing Page**: https://diamitani.github.io/pae-landing/
 - **SalesGency Website**: https://www.salesgency.com
 - **Services Page**: https://www.salesgency.com/services.html
-- **GitHub Repo**: https://github.com/diamitani/salesgency-pae-proposal
 
 ## Credits
 - **Design Framework**: tastyskill.dev methodology
