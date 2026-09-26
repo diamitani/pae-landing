@@ -710,6 +710,91 @@
       font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
     }
 
+
+    /* Related Skills Section */
+    .skills-ecosystem {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    .skill-eco-card {
+      background: var(--surface-white);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: var(--shadow-soft);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .skill-eco-card:hover {
+      border-color: var(--accent-cobalt);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-medium);
+    }
+
+    .skill-eco-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--accent-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+
+    .skill-eco-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .skill-eco-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .skill-eco-meta {
+      font-size: 12px;
+      color: var(--accent-cobalt);
+      font-weight: 600;
+      font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
+    }
+
+    .skills-registry-banner {
+      margin-top: 40px;
+      padding: 28px 32px;
+      border-radius: 20px;
+      background: var(--accent-light);
+      border: 1px solid rgba(37, 99, 235, 0.2);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .skills-registry-banner p {
+      margin: 0;
+      color: var(--text-secondary);
+      font-size: 15px;
+      line-height: 1.6;
+      max-width: 720px;
+    }
+
+    .skills-registry-banner strong {
+      color: var(--text-primary);
+    }
+
     /* Install Section */
     .install-container {
       background: var(--surface-white);
@@ -956,6 +1041,10 @@
       .nodes-grid,
       .pillars-grid,
       .tech-grid,
+      .skills-ecosystem {
+        grid-template-columns: 1fr;
+      }
+
       .install-steps {
         grid-template-columns: 1fr;
       }
@@ -984,6 +1073,7 @@
         <a href="#how-it-works">How It Works</a>
         <a href="#workflow">9 Steps</a>
         <a href="#features">Features</a>
+        <a href="#skills">Skills</a>
         <a href="#install">Get Started</a>
         <a href="https://github.com/diamitani/pae-skill" class="nav-cta" target="_blank" rel="noopener noreferrer">View on GitHub</a>
       </div>
@@ -1516,6 +1606,94 @@
     </div>
   </section>
 
+
+  <!-- Related Skills / Salesgency ecosystem -->
+  <section id="skills">
+    <div class="container">
+      <span class="section-badge">Salesgency Skill Stack</span>
+      <h2 class="section-title">PAE + Companion GTM Skills</h2>
+      <p class="section-subtitle">
+        PAE is the master Prospect Automation Engine skill. Pair it with these Salesgency / Gency companion skills for n8n engineering, execution diagnostics, HubSpot ops, and GTM architecture. All live under Patrick Diamitani's public skill repos.
+      </p>
+
+      <div class="skills-ecosystem">
+        <a class="skill-eco-card" href="https://github.com/diamitani/pae-skill" target="_blank" rel="noopener noreferrer">
+          <div class="skill-eco-icon">⚡</div>
+          <div class="skill-eco-title">Prospect Automation Engine</div>
+          <p class="skill-eco-desc">Master 5-Pillar outbound architecture, 9-node n8n graph, CRM shield, PAS copy, and sequencer enrollment.</p>
+          <span class="skill-eco-meta">github.com/diamitani/pae-skill</span>
+        </a>
+
+        <a class="skill-eco-card" href="https://github.com/diamitani/n8n-engineer-skill" target="_blank" rel="noopener noreferrer">
+          <div class="skill-eco-icon">🔧</div>
+          <div class="skill-eco-title">n8n Engineer</div>
+          <p class="skill-eco-desc">Production n8n node authoring, MCP server/client patterns, sub-workflows, and GTM automation scale-up.</p>
+          <span class="skill-eco-meta">github.com/diamitani/n8n-engineer-skill</span>
+        </a>
+
+        <a class="skill-eco-card" href="https://github.com/diamitani/skill-n8n-execution-analyst" target="_blank" rel="noopener noreferrer">
+          <div class="skill-eco-icon">🩺</div>
+          <div class="skill-eco-title">n8n Execution Analyst</div>
+          <p class="skill-eco-desc">Diagnose failed executions, extract node-level errors, and produce remediation plans from the n8n Public API.</p>
+          <span class="skill-eco-meta">github.com/diamitani/skill-n8n-execution-analyst</span>
+        </a>
+
+        <a class="skill-eco-card" href="https://github.com/diamitani/skill-gtm-engineering" target="_blank" rel="noopener noreferrer">
+          <div class="skill-eco-icon">🏗️</div>
+          <div class="skill-eco-title">GTM Engineering</div>
+          <p class="skill-eco-desc">Architecture-over-tools playbook for Clay, n8n, Make, Zapier, and revenue automation agent stacks.</p>
+          <span class="skill-eco-meta">github.com/diamitani/skill-gtm-engineering</span>
+        </a>
+
+        <a class="skill-eco-card" href="https://github.com/diamitani/skill-partner-pql-manager" target="_blank" rel="noopener noreferrer">
+          <div class="skill-eco-icon">🤝</div>
+          <div class="skill-eco-title">Partner PQL Manager</div>
+          <p class="skill-eco-desc">Partner Qualified Lead routing workflows — HubSpot + n8n classification, testing, and onboarding.</p>
+          <span class="skill-eco-meta">github.com/diamitani/skill-partner-pql-manager</span>
+        </a>
+
+        <a class="skill-eco-card" href="https://github.com/diamitani/skill-atlas-gtm-agent-os" target="_blank" rel="noopener noreferrer">
+          <div class="skill-eco-icon">🛰️</div>
+          <div class="skill-eco-title">GTM Agent OS</div>
+          <p class="skill-eco-desc">ROSTR multi-agent OS for Clay, HubSpot, n8n, Amplemarket, Asana, and full prospect pipeline ops.</p>
+          <span class="skill-eco-meta">github.com/diamitani/skill-atlas-gtm-agent-os</span>
+        </a>
+
+        <a class="skill-eco-card" href="https://github.com/diamitani/hubspot_lists-skill" target="_blank" rel="noopener noreferrer">
+          <div class="skill-eco-icon">📋</div>
+          <div class="skill-eco-title">HubSpot Lists</div>
+          <p class="skill-eco-desc">Static vs active list design, filters, and questionnaire-driven list creation for outbound cohorts.</p>
+          <span class="skill-eco-meta">github.com/diamitani/hubspot_lists-skill</span>
+        </a>
+
+        <a class="skill-eco-card" href="https://github.com/diamitani/hubspot_upload-skill" target="_blank" rel="noopener noreferrer">
+          <div class="skill-eco-icon">⬆️</div>
+          <div class="skill-eco-title">HubSpot Upload</div>
+          <p class="skill-eco-desc">Push formatted prospect records into HubSpot and attach them to the right lists after enrichment.</p>
+          <span class="skill-eco-meta">github.com/diamitani/hubspot_upload-skill</span>
+        </a>
+
+        <a class="skill-eco-card" href="https://github.com/diamitani/salesgency-pae" target="_blank" rel="noopener noreferrer">
+          <div class="skill-eco-icon">📦</div>
+          <div class="skill-eco-title">Salesgency PAE Kit</div>
+          <p class="skill-eco-desc">Agency sell-sheet, skills catalog, workflows, case studies, intake form, and proposal assets for PAE deliveries.</p>
+          <span class="skill-eco-meta">github.com/diamitani/salesgency-pae</span>
+        </a>
+      </div>
+
+      <div class="skills-registry-banner">
+        <p>
+          <strong>Full registry:</strong> 115+ production skills (including every GTM &amp; Sales companion) live in
+          <a href="https://github.com/diamitani/diamitani-skills" target="_blank" rel="noopener noreferrer">diamitani-skills</a>.
+          Agency site: <a href="https://gencyai.com" target="_blank" rel="noopener noreferrer">gencyai.com</a>
+          · Companion landing: <a href="https://diamitani.github.io/n8n-engineer-landing/" target="_blank" rel="noopener noreferrer">n8n Engineer</a>
+          · Marketing kit: <a href="https://github.com/diamitani/salesgency" target="_blank" rel="noopener noreferrer">salesgency</a>
+        </p>
+        <a href="https://github.com/diamitani/diamitani-skills" class="btn-primary" target="_blank" rel="noopener noreferrer">Open Skills Hub →</a>
+      </div>
+    </div>
+  </section>
+
   <!-- Install/Get Started Section -->
   <section id="install">
     <div class="section-header">
@@ -1555,20 +1733,21 @@
         <code>
 # Install the PAE skill (teaches AI agents to build prospecting workflows)<br>
 # Repository: https://github.com/diamitani/pae-skill<br>
+# Registry:   https://github.com/diamitani/diamitani-skills<br>
 <br>
-# Option 1: Git clone install<br>
+# Option 1: Git clone (Hermes / any agent)<br>
 mkdir -p ~/.hermes/skills<br>
 git clone https://github.com/diamitani/pae-skill.git ~/.hermes/skills/pae<br>
 <br>
-# Option 2: Use with your AI agent<br>
-# Tell your AI agent (Claude, ChatGPT, etc.):<br>
-# "Load the PAE skill and help me build an n8n prospecting workflow"<br>
+# Option 2: Hermes CLI<br>
+hermes skills install pae<br>
 <br>
-# The skill teaches AI how to:<br>
-# - Design the 5-step process<br>
-# - Connect your tools (HubSpot, Clay, Smartlead, etc.)<br>
-# - Build the n8n workflow step-by-step<br>
-# - Set up approval gates and error handling
+# Option 3: Pair with companion skills<br>
+git clone https://github.com/diamitani/n8n-engineer-skill.git ~/.hermes/skills/n8n-engineer<br>
+git clone https://github.com/diamitani/skill-n8n-execution-analyst.git ~/.hermes/skills/n8n-execution-analyst<br>
+<br>
+# Then tell your AI agent:<br>
+# "Load the PAE skill and help me build an n8n prospecting workflow"
         </code>
       </div>
 
@@ -1609,6 +1788,7 @@ git clone https://github.com/diamitani/pae-skill.git ~/.hermes/skills/pae<br>
           <li><a href="#how-it-works">How It Works</a></li>
           <li><a href="#workflow">9 Steps</a></li>
           <li><a href="#features">Features</a></li>
+          <li><a href="#skills">Skill Stack</a></li>
           <li><a href="#technical">Compatible Tools</a></li>
         </ul>
       </div>
@@ -1616,7 +1796,9 @@ git clone https://github.com/diamitani/pae-skill.git ~/.hermes/skills/pae<br>
         <h4>Resources</h4>
         <ul class="footer-links">
           <li><a href="#install">Get Started</a></li>
+          <li><a href="#skills">Related Skills</a></li>
           <li><a href="https://github.com/diamitani/pae-skill" target="_blank" rel="noopener noreferrer">PAE Skill GitHub</a></li>
+          <li><a href="https://github.com/diamitani/diamitani-skills" target="_blank" rel="noopener noreferrer">Diamitani Skills Hub</a></li>
           <li><a href="https://hermes-agent.nousresearch.com/docs" target="_blank" rel="noopener noreferrer">Hermes Docs</a></li>
           <li><a href="https://docs.n8n.io" target="_blank" rel="noopener noreferrer">n8n Documentation</a></li>
         </ul>
@@ -1625,6 +1807,8 @@ git clone https://github.com/diamitani/pae-skill.git ~/.hermes/skills/pae<br>
         <h4>Community</h4>
         <ul class="footer-links">
           <li><a href="https://github.com/diamitani/pae-skill" target="_blank" rel="noopener noreferrer">GitHub Repository</a></li>
+          <li><a href="https://gencyai.com" target="_blank" rel="noopener noreferrer">Gency / Salesgency</a></li>
+          <li><a href="https://github.com/diamitani/salesgency-pae" target="_blank" rel="noopener noreferrer">Salesgency PAE Kit</a></li>
           <li><a href="https://twitter.com/iampatd" target="_blank" rel="noopener noreferrer">Twitter</a></li>
           <li><a href="https://linkedin.com/in/diamitani" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
           <li><a href="mailto:patrick.diamitani@gmail.com">Contact</a></li>
@@ -1632,7 +1816,7 @@ git clone https://github.com/diamitani/pae-skill.git ~/.hermes/skills/pae<br>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2026 Prospect Automation Engine. Created by Patrick Diamitani.</p>
+      <p>© 2026 Prospect Automation Engine · Powered by Salesgency / Gency · Created by Patrick Diamitani.</p>
     </div>
   </footer>
 
